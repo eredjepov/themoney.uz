@@ -1,0 +1,77 @@
+.catalog-wish-countries-list {
+  @include list-reset;
+  margin: 15px 0 14px 45px;
+}
+
+
+.catalog-wish-countries-list__item {
+  margin-bottom: 10px;
+
+  font-size: 15px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: $middle-dark-blue;
+  text-transform: uppercase;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &::before {
+    top: -18px;
+    left: -65px;
+
+    transform: scale(0.37);
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .catalog-wish-countries-list {
+    display: flex;
+    margin: 0;
+  }
+
+  .catalog-wish-countries-list__item {
+    margin: 0 0 0 75px;
+
+    font-size: 20px;
+    line-height: 1.5;
+
+    &:first-child {
+      margin-left: 45px;
+    }
+
+    &::before {
+      top: -12px;
+
+      transform: scale(0.5);
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .catalog-wish-countries-list {
+    flex-direction: column;
+    margin: 50px 0 140px 10px;
+    //text-align: right;
+  }
+
+  .catalog-wish-countries-list__item {
+    margin: 0 0 9px 0;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      top: -12px;
+      left: -70px;
+    }
+  }
+}

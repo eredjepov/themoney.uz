@@ -1,0 +1,42 @@
+.duration__label {
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 1.6px;
+  color: $middle-dark-blue;
+  text-transform: uppercase;
+}
+
+.duration__measure {
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 1.6px;
+  color: rgba(29, 46, 91, 0.3);
+  text-transform: uppercase;
+}
+
+@media (min-width: $tablet-width) {
+  .duration {
+    order: 5;
+
+    margin-bottom: 30px;
+  }
+
+  .duration__label,
+  .duration__measure {
+    font-size: 20px;
+    line-height: 0.9;
+    letter-spacing: 2px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .duration {
+    position: relative;
+
+    margin-bottom: 0;
+  }
+}

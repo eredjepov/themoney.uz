@@ -1,0 +1,137 @@
+.route {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  margin: -40px auto 0 auto;
+  padding: 0;
+
+  background-color: $yellow;
+  border-radius: 0 0 30px 30px;
+}
+
+.route__wrapper {
+  width: 320px;
+  margin: 0 auto;
+  padding: 75px 25px 35px 25px;
+}
+
+.route__address-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.route__btn {
+  position: relative;
+
+  margin-right: 15px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    margin-top: -11px;
+    margin-left: -7px;
+    width: 14px;
+    height: 22px;
+
+    background-repeat: no-repeat;
+  }
+}
+
+.route__address {
+  font-size: 16px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  color: $dark-blue;
+  text-transform: uppercase;
+}
+
+@media (min-width: $tablet-width) {
+  .route {
+    margin: -60px auto 0 auto;
+
+    border-radius: 0 0 60px 60px;
+  }
+
+  .route__wrapper {
+    width: 768px;
+    padding: 110px 75px 85px 75px;
+  }
+
+  .route__address-wrapper {
+    margin-bottom: 45px;
+  }
+
+  .route__btn {
+    margin-right: 30px;
+    width: 67px;
+    height: 67px;
+
+    &::before {
+      margin-top: -15.5px;
+      margin-left: -10.5px;
+      width: 21px;
+      height: 31px;
+    }
+  }
+
+  .route__address {
+    font-size: 26px;
+    line-height: normal;
+  }
+
+  .route__btn-bottom {
+    padding: 20px 35px 15px 30px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .route {
+    margin-top: -60px;
+
+    border-radius: 0 0 60px 60px;
+  }
+
+  .route__wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 1440px;
+    margin: 0 auto;
+    padding: 120px 130px 55px 285px;
+  }
+
+  .route__address-wrapper {
+    margin-bottom: 0;
+  }
+
+  .route__btn {
+    margin-right: 30px;
+    width: 90px;
+    height: 90px;
+
+    &::before {
+      margin-top: -21.5px;
+      margin-left: -14px;
+      width: 28px;
+      height: 43px;
+    }
+  }
+
+  .route__address {
+    font-size: 28px;
+  }
+
+  .route__btn-bottom {
+    width: 325px;
+  }
+}

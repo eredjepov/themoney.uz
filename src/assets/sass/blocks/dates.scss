@@ -1,0 +1,156 @@
+.dates {
+  display: flex;
+  flex-direction: column;
+}
+
+.dates__checkbox {
+  position: relative;
+
+  margin-bottom: 25px;
+  margin-top: 7px;
+}
+
+.dates__checkbox-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 26px;
+  height: 26px;
+  display: inline-block;
+  margin-top: -5px;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+
+    width: 26px;
+    height: 26px;
+    margin-top: -13px;
+
+    border: 1px solid $light-gray-white;
+    border-radius: 4px;
+  }
+
+  &--selected::before {
+    background-image: url("../../img/tick.svg");
+    background-repeat: no-repeat;
+    background-size: 9px;
+    background-position: center;
+  }
+}
+
+.dates__checkbox-indicator:hover::before,
+.dates__checkbox-indicator:focus::before {
+  border-color: $dark-gray-blue;
+  outline: none;
+}
+
+.dates__checkbox-indicator:active::before {
+  outline: none;
+  opacity: 0.3;
+}
+
+.dates__checkbox-indicator:active {
+  background-color: $pale-grey-three;
+}
+
+.dates__kids-label {
+  padding-left: 40px;
+
+  font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $brown-gray;
+}
+
+.dates__label-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+@media (min-width: $tablet-width) {
+  .dates__label-wrapper {
+    margin-bottom: 23px;
+    margin-top: 4px;
+  }
+
+  .dates__checkbox {
+    width: 100%;
+    margin-bottom: 22px;
+  }
+
+  .dates__checkbox-indicator {
+    top: -7px;
+
+    width: 36px;
+    height: 36px;
+
+    &::before {
+      margin-top: -18px;
+
+      width: 36px;
+      height: 36px;
+
+      background-size: 12px;
+    }
+  }
+
+  .dates__kids-label {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    padding-left: 60px;
+    padding-bottom: 32px;
+
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: 1.7px;
+    color: $middle-dark-blue;
+    text-transform: uppercase;
+
+    border-bottom: solid 1px $light-gray-white;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .dates {
+    position: relative;
+  }
+
+  .dates__quantity {
+    width: 485px;
+  }
+
+  .dates__checkbox {
+    position: absolute;
+    right: 400px;
+    top: 322px;
+
+    width: auto;
+  }
+
+  .dates__kids-label {
+    position: absolute;
+    left: 60px;
+    top: 0;
+
+    width: fit-content;
+    padding-left: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+
+    white-space: nowrap;
+  }
+}

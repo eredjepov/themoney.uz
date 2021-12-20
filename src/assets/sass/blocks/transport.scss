@@ -1,0 +1,187 @@
+.transport {
+  position: relative;
+
+  width: 33px;
+  height: 33px;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: 5;
+
+    width: 33px;
+    height: 33px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    bottom: -3px;
+    left: 50%;
+
+    display: none;
+    margin-left: -15px;
+    width: 0;
+    height: 0;
+
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid $tooltip-blue;
+  }
+
+  &--no-bg {
+    background-color: transparent;
+  }
+
+  &--bg-gray {
+    background-color: $middle-white;
+  }
+}
+
+.transport--bg-white {
+  background-color: $pure-white;
+  border-radius: 50%;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  &:active {
+    background-color: $pale-grey-three;
+  }
+
+  &:active::before {
+    opacity: 0.3;
+  }
+}
+
+.transport--plane::before {
+  background-image: url("../../img/plane.svg");
+}
+
+.transport--run::before {
+  background-image: url("../../img/run.svg");
+}
+
+.transport--inactive::before {
+  opacity: 0.15;
+}
+
+.transport--big.transport--plane::before {
+  background-size: 19px 21px;
+}
+
+.transport--big.transport--bus::before {
+  background-size: 17px 21px;
+}
+
+.transport--big.transport--bike::before {
+  background-size: 24px 21px;
+}
+
+.transport--big.transport--run::before {
+  background-size: 20px 21px;
+}
+
+.transport--small.transport--plane::before {
+  background-size: 14px 16px;
+}
+
+.transport--small.transport--bus::before {
+  background-size: 13px 16px;
+}
+
+.transport--small.transport--bike::before {
+  background-size: 19px 17px;
+}
+
+.transport--small.transport--run::before {
+  background-size: 15px 17px;
+}
+
+.transport:hover .transport__title {
+  display: table;
+  margin: 0;
+  padding: 15px 20px;
+  height: 57px;
+
+  font-size: 20px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: $pure-white;
+
+  border-radius: 4px;
+  background-color: $tooltip-blue;
+}
+
+.transport:hover {
+  &::after {
+    display: block;
+  }
+}
+
+.transport__title {
+  @include hide-text;
+  position: absolute;
+  bottom: -60px;
+  z-index: 14;
+
+  transform: translate(-30%, 0);
+
+  white-space: nowrap;
+}
+
+.transport--no-tooltip:hover::after {
+  display: none;
+}
+
+.transport--no-tooltip:hover .transport__title {
+  display: none;
+}
+
+@media (min-width: $tablet-width) {
+  .transport {
+    &--bg-gray {
+      background-color: transparent;
+    }
+  }
+
+  .transport--small {
+    width: 43px;
+    height: 43px;
+
+    &::before {
+      width: 43px;
+      height: 43px;
+    }
+  }
+
+  .transport--small.transport--plane::before {
+    background-size: 19px 21px;
+  }
+
+  .transport--small.transport--bus::before {
+    background-size: 17px 21px;
+  }
+
+  .transport--small.transport--bike::before {
+    background-size: 24px 21px;
+  }
+
+  .transport--small.transport--run::before {
+    background-size: 20px 21px;
+  }
+}

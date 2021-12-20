@@ -1,0 +1,142 @@
+.directions {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  margin: -60px auto 0 auto;
+
+  border-radius: 0 0 40px 40px;
+  background-color: $middle-white;
+}
+
+.directions__wrapper {
+  width: 320px;
+  margin: 0 auto;
+  padding: 0 25px;
+}
+
+.directions__header {
+  position: relative;
+
+  margin: 0;
+  padding: 130px 0 0 25px;
+
+  font-size: 24px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $orange;
+}
+
+.directions__note {
+  margin: 0;
+  padding: 20px 50px 60px 25px;
+
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  color: $brown-gray;
+}
+
+.directions__btn {
+  margin: 20px 0 30px 0;
+}
+
+@media (min-width: $tablet-width) {
+  .directions {
+    border-radius: 0 0 60px 60px;
+  }
+
+  .directions__wrapper {
+    width: 768px;
+    padding: 0 75px;
+  }
+
+  .directions__header {
+    padding: 130px 0 0 0;
+
+    font-size: 45px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 140px;
+      right: -40px;
+
+      width: 290px;
+      height: 575px;
+
+      background-repeat: no-repeat;
+      border-radius: 20px;
+
+      @media (min-resolution: $retina-dpi), (min-resolution: $retina-dppx) {
+        background-size: contain;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      bottom: -430px;
+      left: -35px;
+
+      width: 140px;
+      height: 140px;
+
+      background-color: $pale-grey-three;
+      border-radius: 20px;
+    }
+  }
+
+  .directions__note {
+    max-width: 340px;
+    padding: 60px 0 100px 0;
+
+    font-size: 28px;
+    line-height: 1.18;
+  }
+
+  .directions__btn {
+    margin: 40px 0 80px 0;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .directions {
+    border-radius: 0 0 60px 60px;
+  }
+
+  .directions__wrapper {
+    width: 1440px;
+    padding: 0 60px;
+  }
+
+  .directions__header {
+    padding: 225px 0 0 800px;
+
+    &::after {
+      bottom: -20px;
+      left: 0;
+    }
+
+    &::before {
+      top: 160px;
+      right: 0;
+    }
+  }
+
+  .directions__note {
+    padding: 60px 0 0 0;
+    margin-left: 800px;
+  }
+
+  .directions__btn {
+    max-width: 275px;
+    margin: -80px 0 140px 800px;
+  }
+}

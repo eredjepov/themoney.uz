@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import PageHeader from "./components/PageHeader/PageHeader";
+import CourseList from "./components/CourseList/CourseList";
+import {useState} from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+function App(props) {
+
+    // true - straight direction equal 'bank is buy', false: 'bank is sell'
+
+    const [direction, setDirection] = useState(true)
+
+    const onSetDirection = (direction) => {
+        direction === 'buy'? setDirection(true) : setDirection(!true) ;
+    }
+
+    return (
+        <main className="main-part">
+            <PageHeader title={props.title} onSetDirection={onSetDirection}/>
+            <CourseList
+                title={'Банки покупают'}
+                buyUrl={`https://dollaruz.herokuapp.com/rates/buy`}
+                sellUrl={`https://dollaruz.herokuapp.com/rates/buy`}
+                onSetDirection={onSetDirection}
+                direction={direction}/>
+
+            {/*<CourseList title={'Банки Продают'}/>*/}
+        </main>
+    );
 }
 
 export default App;

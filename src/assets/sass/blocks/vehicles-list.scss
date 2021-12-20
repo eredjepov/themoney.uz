@@ -1,0 +1,23 @@
+.vehicles-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: $tablet-width) {
+  .vehicles-list {
+    margin-top: 24px;
+  }
+
+  .vehicles-list__checkbox:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .vehicles-list__checkbox:not(:last-child) {
+    margin-right: 0;
+  }
+}
