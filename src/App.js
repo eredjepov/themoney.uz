@@ -3,28 +3,28 @@ import PageHeader from "./components/PageHeader/PageHeader";
 import CourseList from "./components/CourseList/CourseList";
 import {useState} from "react";
 
-
 function App(props) {
-
+    const {urls, currencies} = props;
     // true - straight direction equal 'bank is buy', false: 'bank is sell'
 
-    const [direction, setDirection] = useState(true)
+    const [direction, setDirection] = useState('buy')
 
-    const onSetDirection = (direction) => {
-        direction === 'buy'? setDirection(true) : setDirection(!true) ;
+    const onSetDirection = (e, d) => {
+        e.preventDefault();
+        d === 'buy' ? setDirection('buy') : setDirection('sell');
     }
 
     return (
         <main className="main-part">
-            <PageHeader title={props.title} onSetDirection={onSetDirection}/>
+            <PageHeader title={props.title} direction={direction} onSetDirection={onSetDirection}/>
             <CourseList
                 title={'Банки покупают'}
-                buyUrl={`https://dollaruz.herokuapp.com/rates/buy`}
-                sellUrl={`https://dollaruz.herokuapp.com/rates/buy`}
+                toCurency={currencies.master.toUpperCase()}
+                fromCurency={currencies.slave.toUpperCase()}
+                buyUrl={urls.buy}
+                sellUrl={urls.sell}
                 onSetDirection={onSetDirection}
                 direction={direction}/>
-
-            {/*<CourseList title={'Банки Продают'}/>*/}
         </main>
     );
 }

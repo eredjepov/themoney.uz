@@ -18,8 +18,9 @@ function PageHeader(props) {
                     <div className="filter__countries-wrapper">
                         <ul className="filter__list mainland-list js-filter-mainland">
                             <li className="mainland-list__item">
-                                <a className="mainland-list__link mainland-list__link--selected" href="#" onClick={()=> props.onSetDirection('buy')}>Покупка</a> 👆</li>
-                            <li className="mainland-list__item"><a className="mainland-list__link" href="#" onClick={()=>props.onSetDirection('sell')}>Продажа</a> 👇</li>
+                                <a className={`mainland-list__link ${props.direction === 'buy' ? 'mainland-list__link--selected' : null}`} href="#" onClick={(e)=>  props.onSetDirection(e, 'buy')}>Покупка</a> 👆</li>
+                            <li className='mainland-list__item'>
+                                <a className={`mainland-list__link  ${props.direction === 'sell' ? 'mainland-list__link--selected' : null}`} href="#" onClick={(e)=>props.onSetDirection(e, 'sell')}>Продажа</a> 👇</li>
                         </ul>
 
                     </div>

@@ -1,10 +1,8 @@
 .footer {
   position: relative;
   z-index: 3;
-
   width: 100%;
   margin: -50px auto 0 auto;
-
   background-color: $header-footer-color;
   border-radius: 30px 30px 0 0;
 }
@@ -21,7 +19,6 @@
 .footer__copyright {
   width: 100%;
   padding: 5px 0 0 0;
-
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -100,6 +97,7 @@
     //width: 200px;
     height: 52px;
     text-align: right;
+    fill: $dark-purple-blue;
   }
 
   .footer__text {
