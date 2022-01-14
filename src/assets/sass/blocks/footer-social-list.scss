@@ -1,8 +1,6 @@
 .footer-social-list {
   @include list-reset;
-
   display: flex;
-  //width: 135px;
   margin: 40px auto 35px auto;
 }
 
@@ -15,12 +13,12 @@
   width: 45px;
   height: 45px;
 
-  background-color: $yellow;
+  background-color: $online;
   border-radius: 50%;
 
   &:hover,
   &:focus {
-    background-color: $orange;
+    background-color: $dark-yellow;
   }
 
   &:active svg {
@@ -34,7 +32,6 @@
 
 @media (min-width: $tablet-width) {
   .footer-social-list {
-    //width: 180px;
     margin: 0;
   }
 
