@@ -6,7 +6,7 @@ import App from './App';
 import './assets/sass/style.scss'
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-const SERVER_URL = 'http://localhost:8080'
+const SERVER_URL = 'https://api.dollaruz.biz'
 
 ReactDOM.render(
     <>
