@@ -8,7 +8,6 @@ export default function CourseList(props) {
 
     const [url, setUrl] = useState(buyUrl)
 
-
     useEffect(() => {
         direction === 'buy'
             ? setUrl(buyUrl)
@@ -23,6 +22,11 @@ export default function CourseList(props) {
             .catch((err) => console.log(err))
     }, [url])
 
+    const buildDateString = (date) => {
+        const time = new Date(date)
+        time.setHours(time.getHours() - 3)
+        return time.toLocaleString();
+    }
 
     if (!data) {
         return (
@@ -69,29 +73,13 @@ export default function CourseList(props) {
                                     <p className="course-list__companions-number">
                                         {topCourseBank
                                             .rate === e.rate ? '🔥' : null}
-
                                         <b>{
                                             direction === 'buy'
                                                 ? `1 ${toCurency} > ${e.rate} ${fromCurency}`
                                                 : `${e.rate} ${fromCurency} >  1 ${toCurency}`
                                         }</b>
                                     </p>
-                                    <p className="course-list__link">Обновлено {e.date
-                                        .replace('T', ' в ')
-                                        .replace('.000Z', '')
-                                        // .split(' ')
-                                        // .map((item, index) => index === 2
-                                        //     ? item
-                                        //         .split(':')
-                                        //         .map((el, id) => id !== 0
-                                        //             ? el
-                                        //             : +el + 2 > 23
-                                        //                 ? +el + 2 - 24
-                                        //                 : +el + 2)
-                                        //         .join(':')
-                                        //     : item)
-                                        // .join(' ')
-                                    }
+                                    <p className="course-list__link">Обновлено {buildDateString(e.date)}
                                     </p>
                                 </li>
                             )
