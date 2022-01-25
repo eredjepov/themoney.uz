@@ -29,9 +29,8 @@ import {BiStats} from "react-icons/bi";
 import image from '../../assets/img/120x120.gif'
 
 export default function CourseList(props) {
-    const {isOpen, onOpen, onClose} = useDisclosure()
 
-    const {buyUrl, sellUrl, direction, title, toCurency, fromCurency} = props;
+    const {buyUrl, sellUrl, direction, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
 
     const [data, setData] = useState(null)
 
@@ -183,35 +182,14 @@ export default function CourseList(props) {
 
                                                     <p>
                                                         <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                                                        <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                        <Link onClick={onCalcOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
                                                             Калькулятор
                                                         </Link>
-
-                                                        <>
-                                                            <Modal isOpen={isOpen} onClose={onClose}>
-                                                                <ModalOverlay/>
-                                                                <ModalContent>
-                                                                    <ModalHeader>Modal Title</ModalHeader>
-                                                                    <ModalCloseButton/>
-                                                                    <ModalBody>
-                                                                        12312312312
-                                                                    </ModalBody>
-
-                                                                    <ModalFooter>
-                                                                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                                                                            Close
-                                                                        </Button>
-                                                                        <Button variant='ghost'>Secondary
-                                                                            Action</Button>
-                                                                    </ModalFooter>
-                                                                </ModalContent>
-                                                            </Modal>
-                                                        </>
                                                     </p>
 
                                                     <p>
                                                         <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-                                                        <Link color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                        <Link onClick={onHistOpen}  color={'gray.400'} fontSize="sm" textDecoration="underline">
                                                             История курса
                                                         </Link>
                                                     </p>
