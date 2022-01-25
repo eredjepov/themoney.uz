@@ -87,8 +87,7 @@ export default function CourseList(props) {
                     mx="auto"
                     px={{
                         base: '4',
-                        md: '8',
-                        lg: '12',
+                        md: '2'
                     }}
                     py={{
                         base: '6',
