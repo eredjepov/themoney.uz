@@ -1,6 +1,35 @@
+import * as React from "react";
 import {useEffect, useState} from "react";
+import {
+    Box,
+    SimpleGrid,
+    Heading,
+    Icon,
+    Image,
+    Link,
+    Stack,
+    Text,
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    useColorModeValue as mode
+} from "@chakra-ui/react";
+
+//icons
+import {AiOutlineCalculator} from "react-icons/ai";
+import {BiStats} from "react-icons/bi";
+
+//imgs
+import image from '../../assets/img/120x120.gif'
 
 export default function CourseList(props) {
+    const {isOpen, onOpen, onClose} = useDisclosure()
 
     const {buyUrl, sellUrl, direction, title, toCurency, fromCurency} = props;
 
@@ -13,7 +42,6 @@ export default function CourseList(props) {
             ? setUrl(buyUrl)
             : setUrl(sellUrl)
     }, [buyUrl, sellUrl, direction])
-
 
     useEffect(() => {
         fetch(`${url}`)
@@ -30,15 +58,16 @@ export default function CourseList(props) {
 
     if (!data) {
         return (
-            <section className="my-plans">
-                <div className="my-plans__wrapper">Жди, я загружаю данные...</div>
+            <section>
+                <div>Жди, я загружаю данные...</div>
             </section>
         )
     }
+
     if (data.length === 0) {
         return (
-            <section className="my-plans">
-                <div className="my-plans__wrapper">Что то пошло не так, попробуй лучше позднее...</div>
+            <section>
+                <div>Что то пошло не так, попробуй лучше позднее...</div>
             </section>
         )
     }
@@ -50,46 +79,152 @@ export default function CourseList(props) {
     return (
         <>
             {data &&
-            <section className="my-plans">
-                <div className="my-plans__wrapper">
-                    <h2 className="my-plans__header">
-                        {
-                            direction === 'buy'
-                                ? 'Ты можешь продать по такому курсу'
-                                : 'Ты можешь купить по такому курсу'
-                        }
-                    </h2>
-                    <ol className="my-plans__list course-list">
+            <>
+                <Box
+                    maxW={{
+                        base: '3xl',
+                        lg: '7xl',
+                    }}
+                    mx="auto"
+                    px={{
+                        base: '4',
+                        md: '8',
+                        lg: '12',
+                    }}
+                    py={{
+                        base: '6',
+                        md: '8',
+                        lg: '12',
+                    }}
+                >
+                    <Stack
+                        direction={{
+                            base: 'column',
+                            lg: 'row',
+                        }}
+                        align={{
+                            lg: 'flex-start',
+                        }}
+                        spacing={{
+                            base: '8',
+                            md: '16',
+                        }}
+                    >
+                        <Stack
+                            spacing={{
+                                base: '8',
+                                md: '10',
+                            }}
+                            flex="2"
+                        >
+                            <Heading fontSize="2xl" fontWeight="extrabold">
+                                Курс доллара в Узбекистане
+                            </Heading>
 
-                        {data.sort((a, b) =>
-                            (
-                                direction === 'buy'
-                                    ? parseFloat(b.rate) - parseFloat(a.rate)
-                                    : parseFloat(a.rate) - parseFloat(b.rate)
-                            )).map((e, id) => (
-                                <li className="course-list__item" key={e.bankId}>
-                                    <p className="course-list__number">{id + 1}.</p>
-                                    <p className="course-list__name">{e.name}</p>
-                                    <p className="course-list__companions-number">
-                                        {topCourseBank
-                                            .rate === e.rate ? '🔥' : null}
-                                        <b>{
-                                            direction === 'buy'
-                                                ? `1 ${toCurency} > ${e.rate} ${fromCurency}`
-                                                : `${e.rate} ${fromCurency} >  1 ${toCurency}`
-                                        }</b>
-                                    </p>
-                                    <p className="course-list__link">Обновлено {buildDateString(e.date)}
-                                    </p>
-                                </li>
-                            )
-                        )}
+                            <h2>
+                                {
+                                    direction === 'buy'
+                                        ? 'Банк у тебя купит по такому курсу'
+                                        : 'Банк тебе продаст по такому курсу'
+                                }
+                            </h2>
 
-                    </ol>
-                </div>
-            </section>
+                            <SimpleGrid columns={[1, null, 2]}
+                                        gap={6}>
+                                {data.sort((a, b) =>
+                                    (
+                                        direction === 'buy'
+                                            ? parseFloat(b.rate) - parseFloat(a.rate)
+                                            : parseFloat(a.rate) - parseFloat(b.rate)
+                                    ))
+                                    .map(({name, date, rate}, id) => (
+
+                                        <Box
+                                            direction={{
+                                                base: 'column',
+                                                md: 'row',
+
+                                            }}
+                                            w='100%'
+                                        >
+                                            <Stack direction="row" spacing="5" width="full">
+                                                <Image
+                                                    rounded="lg"
+                                                    width="100px"
+                                                    height="100px"
+                                                    fit="cover"
+                                                    src={image}
+                                                    alt={name}
+                                                    draggable="false"
+                                                    loading="lazy"
+                                                />
+
+                                                <Box>
+
+                                                    <Stack spacing="0.5">
+                                                        <Text fontWeight="bold">{name}</Text>
+                                                        <Text
+                                                            as="span"
+                                                            fontWeight="b"
+                                                        >
+                                                            {topCourseBank
+                                                                .rate === rate ? '🔥 ' : null}
+                                                            {
+                                                                direction === 'buy'
+                                                                    ? `1 ${toCurency} > ${rate} ${fromCurency}`
+                                                                    : `${rate} ${fromCurency} >  1 ${toCurency}`
+                                                            }
+                                                        </Text>
+                                                        <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
+                                                            Обновлено {buildDateString(date)}
+                                                        </Text>
+
+                                                    </Stack>
+
+                                                    <p>
+                                                        <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
+                                                        <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                            Калькулятор
+                                                        </Link>
+
+                                                        <>
+                                                            <Modal isOpen={isOpen} onClose={onClose}>
+                                                                <ModalOverlay/>
+                                                                <ModalContent>
+                                                                    <ModalHeader>Modal Title</ModalHeader>
+                                                                    <ModalCloseButton/>
+                                                                    <ModalBody>
+                                                                        12312312312
+                                                                    </ModalBody>
+
+                                                                    <ModalFooter>
+                                                                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                                                            Close
+                                                                        </Button>
+                                                                        <Button variant='ghost'>Secondary
+                                                                            Action</Button>
+                                                                    </ModalFooter>
+                                                                </ModalContent>
+                                                            </Modal>
+                                                        </>
+                                                    </p>
+
+                                                    <p>
+                                                        <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
+                                                        <Link color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                            История курса
+                                                        </Link>
+                                                    </p>
+                                                </Box>
+                                            </Stack>
+                                        </Box>
+                                    ))}
+                            </SimpleGrid>
+                        </Stack>
+                    </Stack>
+                </Box>
+            </>
             }
         </>
     )
-
 }
