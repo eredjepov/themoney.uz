@@ -14,13 +14,13 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
-    useColorModeValue as mode
+    // useColorModeValue as mode
 } from "@chakra-ui/react";
+
 
 function App(props) {
 
     const {isOpen, onOpen, onClose} = useDisclosure()
-    const {isHistOpen, onHistOpen, onHistClose} = useDisclosure()
     const {urls, currencies} = props;
 
     const [direction, setDirection] = useState('buy')
@@ -32,6 +32,7 @@ function App(props) {
 
     return (
         <>
+
             <main className="main-part">
 
                 <Modal isOpen={isOpen} onClose={onClose}>

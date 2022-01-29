@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom'
-import {Box, ButtonGroup, IconButton, Stack, Text} from "@chakra-ui/react";
+import {Box, ButtonGroup, IconButton, Stack} from "@chakra-ui/react";
 import {FaTelegram} from "react-icons/fa";
 import * as React from "react";
 
