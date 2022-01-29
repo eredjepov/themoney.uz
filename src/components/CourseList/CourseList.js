@@ -19,7 +19,7 @@ import {BiStats} from "react-icons/bi";
 
 function importAll(r) {
     let images = {};
-    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    r.keys().map((item) => { images[item.replace('./', '')] = r(item); });
     return images;
 }
 
@@ -78,11 +78,11 @@ export default function CourseList(props) {
         <>
             {data &&
             <>
-                <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{base: '6', md: '8', lg: '12',}}>
+                <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4',}} py={{base: '6', md: '8', lg: '12',}}>
                     <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{base: '8', md: '16',}}>
                         <Stack spacing={{base: '8', md: '10',}} flex="2">
                             <Heading fontSize="2xl" fontWeight="extrabold">
-                                Курс доллара в Узбекистане
+                                Курс доллара в Узбекистане в реальном времени
                             </Heading>
 
                             <h2>
