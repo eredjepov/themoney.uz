@@ -56,9 +56,9 @@ export default function CourseList(props) {
 
     if (!data) {
         return (
-            <section>
+            <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{base: '6', md: '8', lg: '12',}} >
                 <div>Жди, я загружаю данные...</div>
-            </section>
+            </Box>
         )
     }
 
@@ -76,7 +76,6 @@ export default function CourseList(props) {
 
     return (
         <>
-
             {data &&
             <>
                 <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{base: '6', md: '8', lg: '12',}}>
@@ -90,8 +89,8 @@ export default function CourseList(props) {
                                 {direction === 'buy' ? 'Банк у тебя купит по такому курсу' : 'Банк тебе продаст по такому курсу'}
                             </h2>
 
-                            <SimpleGrid columns={[1, null, 2]}
-                                        gap={6}>
+                            <SimpleGrid columns={[1, null, 2]} gap={6}>
+
                                 {data.sort((a, b) =>
                                     (
                                         direction === 'buy'
@@ -100,16 +99,8 @@ export default function CourseList(props) {
                                     ))
                                     .map(({name, date, rate}, id) => (
 
-                                        <Box
-                                            direction={{
-                                                base: 'column',
-                                                md: 'row',
-
-                                            }}
-                                            w='100%'
-                                        >
+                                        <Box direction={{ base: 'column', md: 'row'}} w='100%' >
                                             <Stack direction="row" spacing="5" width="full">
-
                                                 <Image
                                                     rounded="lg"
                                                     border={'1px'}
@@ -126,7 +117,6 @@ export default function CourseList(props) {
                                                 <Box>
 
                                                     <Stack spacing="0.5">
-                                                        <Text fontWeight="bold">{name.replaceAll(' ', '').toLowerCase() + '.png'}</Text>
                                                         <Text fontWeight="bold">{name}</Text>
                                                         <Text as="span" fontWeight="b" >
                                                             {topCourseBank
