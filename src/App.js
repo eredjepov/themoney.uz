@@ -14,21 +14,22 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
+    Box,
+    Divider,
+    Flex,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+    useColorModeValue as mode,
     // useColorModeValue as mode
 } from "@chakra-ui/react";
-
 
 function App(props) {
 
     const {isOpen, onOpen, onClose} = useDisclosure()
     const {urls, currencies} = props;
-
-    const [direction, setDirection] = useState('buy')
-
-    const onSetDirection = (e, d) => {
-        e.preventDefault();
-        d === 'buy' ? setDirection('buy') : setDirection('sell');
-    }
 
     return (
         <>
@@ -51,18 +52,58 @@ function App(props) {
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
+                <Tabs isFitted>
+                    <Flex direction="column" align="stretch" minH="100vh">
+                        <Box bg={mode('gray.50', 'gray.800')} px={{base: '4', md: '8'}} pt="8">
+                            <Box maxW="7xl" mx="auto">
+                                <Flex justify="space-between" align="flex-start">
+                                    <TabList border="0" position="relative" zIndex={1} w={{base: '100%', md: 'auto'}}>
+                                        <Tab textAlign={'left'} justifyContent="flex-start" fontWeight="semibold" w={{base: 'auto', md: '250px'}}>Банк покупает</Tab>
+                                        <Tab textAlign={'left'} justifyContent={'flex-start'} fontWeight="semibold"  w={{base: 'auto', md: '250px'}}>Банк продает</Tab>
+                                    </TabList>
 
-                <CourseList
-                    title={'Банки покупают'}
-                    toCurency={currencies.master.toUpperCase()}
-                    fromCurency={currencies.slave.toUpperCase()}
-                    buyUrl={urls.buy}
-                    sellUrl={urls.sell}
-                    onSetDirection={onSetDirection}
-                    direction={direction}
-                    onCalcOpen={onOpen}
-                    onHistOpen={onOpen}
-                />
+
+                                </Flex>
+                            </Box>
+                        </Box>
+                        <Box pos="relative" zIndex={0}>
+                            <Divider borderBottomWidth="2px" opacity={1} borderColor={mode('gray.100', 'gray.700')}/>
+                        </Box>
+                        <Box flex="1">
+                            <Box mx="auto">
+                                <TabPanels h="full">
+                                    <TabPanel>
+                                        <CourseList
+                                            title={'Банки покупают'}
+                                            toCurency={currencies.master.toUpperCase()}
+                                            fromCurency={currencies.slave.toUpperCase()}
+                                            buyUrl={urls.buy}
+                                            sellUrl={urls.sell}
+                                            direction={'buy'}
+                                            onCalcOpen={onOpen}
+                                            onHistOpen={onOpen}
+                                        />
+                                    </TabPanel>
+                                    <TabPanel>
+
+                                        <CourseList
+                                            title={'Банки продают'}
+                                            toCurency={currencies.master.toUpperCase()}
+                                            fromCurency={currencies.slave.toUpperCase()}
+                                            buyUrl={urls.buy}
+                                            sellUrl={urls.sell}
+                                            direction={'sell'}
+                                            onCalcOpen={onOpen}
+                                            onHistOpen={onOpen}
+                                        />
+
+                                    </TabPanel>
+                                </TabPanels>
+                            </Box>
+                        </Box>
+                    </Flex>
+                </Tabs>
+
             </main>
         </>
     );
