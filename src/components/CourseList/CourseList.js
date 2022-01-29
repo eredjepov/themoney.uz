@@ -9,15 +9,6 @@ import {
     Link,
     Stack,
     Text,
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    ModalFooter,
-    useDisclosure,
     useColorModeValue as mode
 } from "@chakra-ui/react";
 
@@ -25,8 +16,16 @@ import {
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
 
-//imgs
-import image from '../../assets/img/120x120.gif'
+
+function importAll(r) {
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    return images;
+}
+
+const images = importAll(require.context('../../images', false, /\.(png|jpe?g|svg)$/));
+
+
 
 export default function CourseList(props) {
 
@@ -77,56 +76,18 @@ export default function CourseList(props) {
 
     return (
         <>
+
             {data &&
             <>
-                <Box
-                    maxW={{
-                        base: '3xl',
-                        lg: '7xl',
-                    }}
-                    mx="auto"
-                    px={{
-
-                        base: '4',
-                        md: '6',
-                        lg: '8',
-                    }}
-                    py={{
-                        base: '6',
-                        md: '8',
-                        lg: '12',
-                    }}
-                >
-                    <Stack
-                        direction={{
-                            base: 'column',
-                            lg: 'row',
-                        }}
-                        align={{
-                            lg: 'flex-start',
-                        }}
-                        spacing={{
-                            base: '8',
-                            md: '16',
-                        }}
-                    >
-                        <Stack
-                            spacing={{
-                                base: '8',
-                                md: '10',
-                            }}
-                            flex="2"
-                        >
+                <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{base: '6', md: '8', lg: '12',}}>
+                    <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{base: '8', md: '16',}}>
+                        <Stack spacing={{base: '8', md: '10',}} flex="2">
                             <Heading fontSize="2xl" fontWeight="extrabold">
                                 Курс доллара в Узбекистане
                             </Heading>
 
                             <h2>
-                                {
-                                    direction === 'buy'
-                                        ? 'Банк у тебя купит по такому курсу'
-                                        : 'Банк тебе продаст по такому курсу'
-                                }
+                                {direction === 'buy' ? 'Банк у тебя купит по такому курсу' : 'Банк тебе продаст по такому курсу'}
                             </h2>
 
                             <SimpleGrid columns={[1, null, 2]}
@@ -148,12 +109,15 @@ export default function CourseList(props) {
                                             w='100%'
                                         >
                                             <Stack direction="row" spacing="5" width="full">
+
                                                 <Image
                                                     rounded="lg"
+                                                    border={'1px'}
+                                                    borderColor={'gray.200'}
                                                     width="100px"
                                                     height="100px"
                                                     fit="cover"
-                                                    src={image}
+                                                    src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
                                                     alt={name}
                                                     draggable="false"
                                                     loading="lazy"
@@ -162,11 +126,9 @@ export default function CourseList(props) {
                                                 <Box>
 
                                                     <Stack spacing="0.5">
+                                                        <Text fontWeight="bold">{name.replaceAll(' ', '').toLowerCase() + '.png'}</Text>
                                                         <Text fontWeight="bold">{name}</Text>
-                                                        <Text
-                                                            as="span"
-                                                            fontWeight="b"
-                                                        >
+                                                        <Text as="span" fontWeight="b" >
                                                             {topCourseBank
                                                                 .rate === rate ? '🔥 ' : null}
                                                             {
