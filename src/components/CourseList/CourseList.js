@@ -1,20 +1,45 @@
+import * as React from "react";
 import {useEffect, useState} from "react";
+import {
+    Box,
+    SimpleGrid,
+    Heading,
+    Icon,
+    Image,
+    Link,
+    Stack,
+    Text,
+    useColorModeValue as mode
+} from "@chakra-ui/react";
+
+//icons
+import {AiOutlineCalculator} from "react-icons/ai";
+import {BiStats} from "react-icons/bi";
+
+
+function importAll(r) {
+    let images = {};
+    r.keys().map((item) => { images[item.replace('./', '')] = r(item); });
+    return images;
+}
+
+const images = importAll(require.context('../../images', false, /\.(png|jpe?g|svg)$/));
+
+
 
 export default function CourseList(props) {
 
-    const {buyUrl, sellUrl, direction, title, toCurency, fromCurency} = props;
+    const {buyUrl, sellUrl, direction, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
 
     const [data, setData] = useState(null)
 
     const [url, setUrl] = useState(buyUrl)
-
 
     useEffect(() => {
         direction === 'buy'
             ? setUrl(buyUrl)
             : setUrl(sellUrl)
     }, [buyUrl, sellUrl, direction])
-
 
     useEffect(() => {
         fetch(`${url}`)
@@ -23,18 +48,24 @@ export default function CourseList(props) {
             .catch((err) => console.log(err))
     }, [url])
 
+    const buildDateString = (date) => {
+        const time = new Date(date)
+        time.setHours(time.getHours() - 3)
+        return time.toLocaleString();
+    }
 
     if (!data) {
         return (
-            <section className="my-plans">
-                <div className="my-plans__wrapper">Жди, я загружаю данные...</div>
-            </section>
+            <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{base: '6', md: '8', lg: '12',}} >
+                <div>Жди, я загружаю данные...</div>
+            </Box>
         )
     }
+
     if (data.length === 0) {
         return (
-            <section className="my-plans">
-                <div className="my-plans__wrapper">Что то пошло не так, попробуй лучше позднее...</div>
+            <section>
+                <div>Что то пошло не так, попробуй лучше позднее...</div>
             </section>
         )
     }
@@ -46,62 +77,85 @@ export default function CourseList(props) {
     return (
         <>
             {data &&
-            <section className="my-plans">
-                <div className="my-plans__wrapper">
-                    <h2 className="my-plans__header">
-                        {
-                            direction === 'buy'
-                                ? 'Ты можешь продать по такому курсу'
-                                : 'Ты можешь купить по такому курсу'
-                        }
-                    </h2>
-                    <ol className="my-plans__list course-list">
+            <>
+                <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4',}} py={{base: '6', md: '8', lg: '12',}}>
+                    <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{base: '8', md: '16',}}>
+                        <Stack spacing={{base: '8', md: '10',}} flex="2">
+                            <Heading fontSize="2xl" fontWeight="extrabold">
+                                Курс доллара в Узбекистане в реальном времени
+                            </Heading>
 
-                        {data.sort((a, b) =>
-                            (
-                                direction === 'buy'
-                                    ? parseFloat(b.rate) - parseFloat(a.rate)
-                                    : parseFloat(a.rate) - parseFloat(b.rate)
-                            )).map((e, id) => (
-                                <li className="course-list__item" key={e.bankId}>
-                                    <p className="course-list__number">{id + 1}.</p>
-                                    <p className="course-list__name">{e.name}</p>
-                                    <p className="course-list__companions-number">
-                                        {topCourseBank
-                                            .rate === e.rate ? '🔥' : null}
+                            <h2>
+                                {direction === 'buy' ? 'Банк у тебя купит по такому курсу' : 'Банк тебе продаст по такому курсу'}
+                            </h2>
 
-                                        <b>{
-                                            direction === 'buy'
-                                                ? `1 ${toCurency} > ${e.rate} ${fromCurency}`
-                                                : `${e.rate} ${fromCurency} >  1 ${toCurency}`
-                                        }</b>
-                                    </p>
-                                    <p className="course-list__link">Обновлено {e.date
-                                        .replace('T', ' в ')
-                                        .replace('.000Z', '')
-                                        // .split(' ')
-                                        // .map((item, index) => index === 2
-                                        //     ? item
-                                        //         .split(':')
-                                        //         .map((el, id) => id !== 0
-                                        //             ? el
-                                        //             : +el + 2 > 23
-                                        //                 ? +el + 2 - 24
-                                        //                 : +el + 2)
-                                        //         .join(':')
-                                        //     : item)
-                                        // .join(' ')
-                                    }
-                                    </p>
-                                </li>
-                            )
-                        )}
+                            <SimpleGrid columns={[1, null, 2]} gap={6}>
 
-                    </ol>
-                </div>
-            </section>
+                                {data.sort((a, b) =>
+                                    (
+                                        direction === 'buy'
+                                            ? parseFloat(b.rate) - parseFloat(a.rate)
+                                            : parseFloat(a.rate) - parseFloat(b.rate)
+                                    ))
+                                    .map(({name, date, rate}, id) => (
+
+                                        <Box direction={{ base: 'column', md: 'row'}} w='100%' >
+                                            <Stack direction="row" spacing="5" width="full">
+                                                <Image
+                                                    rounded="lg"
+                                                    border={'1px'}
+                                                    borderColor={'gray.200'}
+                                                    width="100px"
+                                                    height="100px"
+                                                    fit="cover"
+                                                    src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
+                                                    alt={name}
+                                                    draggable="false"
+                                                    loading="lazy"
+                                                />
+
+                                                <Box>
+
+                                                    <Stack spacing="0.5">
+                                                        <Text fontWeight="bold">{name}</Text>
+                                                        <Text as="span" fontWeight="b" >
+                                                            {topCourseBank
+                                                                .rate === rate ? '🔥 ' : null}
+                                                            {
+                                                                direction === 'buy'
+                                                                    ? `1 ${toCurency} > ${rate} ${fromCurency}`
+                                                                    : `${rate} ${fromCurency} >  1 ${toCurency}`
+                                                            }
+                                                        </Text>
+                                                        <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
+                                                            Обновлено {buildDateString(date)}
+                                                        </Text>
+
+                                                    </Stack>
+
+                                                    <p>
+                                                        <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
+                                                        <Link onClick={onCalcOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                            Калькулятор
+                                                        </Link>
+                                                    </p>
+
+                                                    <p>
+                                                        <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
+                                                        <Link onClick={onHistOpen}  color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                            История курса
+                                                        </Link>
+                                                    </p>
+                                                </Box>
+                                            </Stack>
+                                        </Box>
+                                    ))}
+                            </SimpleGrid>
+                        </Stack>
+                    </Stack>
+                </Box>
+            </>
             }
         </>
     )
-
 }
