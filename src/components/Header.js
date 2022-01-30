@@ -1,6 +1,6 @@
 import {Box, useColorModeValue as mode} from '@chakra-ui/react'
 import * as React from "react";
-import { NavContent } from '../NavContent'
+import { NavContent } from './NavContent'
 
 
 export default function Header() {

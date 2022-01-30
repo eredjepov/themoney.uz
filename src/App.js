@@ -1,6 +1,6 @@
 import './App.css';
 
-import CourseList from "./components/CourseList/CourseList";
+import CourseList from "./components/CourseList";
 import {Helmet} from "react-helmet";
 
 import * as React from 'react';
@@ -88,8 +88,7 @@ function App(props) {
                   <TabPanel>
 
                     <CourseList
-                      title={`Курс ${title[0]} в Узбекистане в реальном времени`}
-                      subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
+                      title={`Курс ${title[1]} в Узбекистане в реальном времени`}                      subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
                       toCurency={currencies.master.toUpperCase()}
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'buy'}

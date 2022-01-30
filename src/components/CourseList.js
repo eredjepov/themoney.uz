@@ -21,11 +21,12 @@ function importAll(r) {
   let images = {};
   r.keys().map((item) => {
     images[item.replace('./', '')] = r(item);
+    return null
   });
   return images;
 }
 
-const images = importAll(require.context('../../images', false, /\.(png|jpe?g|svg)$/));
+const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
 
 export default function CourseList(props) {
 
@@ -60,9 +61,13 @@ export default function CourseList(props) {
 // broken
   if (data.length === 0) {
     return (
-      <section>
+      <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{
+        base: '6',
+        md: '8',
+        lg: '12',
+      }}>
         <div>Что то пошло не так, попробуй лучше позднее...</div>
-      </section>
+      </Box>
     )
   }
 
@@ -99,9 +104,9 @@ export default function CourseList(props) {
                   ))
                   .map(({name, date, rate}, id) => (
 
-                    <Box direction={{base: 'column', md: 'row'}} w='100%'>
+                    <Box direction={{base: 'column', md: 'row'}} w='100%' key={id}>
                       <Stack direction="row" spacing="5" width="full">
-                        <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} target={'_blank'}>
+                        <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"  target={'_blank'}>
                           <Image
                             rounded="lg"
                             border={'1px'}
@@ -119,7 +124,7 @@ export default function CourseList(props) {
 
                           <Stack spacing="0.5">
                             <Text fontWeight="bold">{name} &nbsp;
-                              <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
+                              <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
                             <Text as="span" fontWeight="b">
                               {topCourseBank
                                 .rate === rate ? '🔥 ' : null}

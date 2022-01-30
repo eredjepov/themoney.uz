@@ -4,8 +4,8 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import App from './App';
 import {ChakraProvider} from '@chakra-ui/react'
 
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const SERVER_URL = 'https://api.dollaruz.biz'
 

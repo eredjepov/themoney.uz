@@ -2,8 +2,8 @@ import * as React from "react";
 import {Link} from 'react-router-dom'
 import {Box, Stack, Text, ButtonGroup, IconButton} from "@chakra-ui/react";
 import {FaTelegram} from 'react-icons/fa'
-import {Logo} from "../Logo";
-import TelegramIcon from '../TelegramIcon'
+import {Logo} from "./Logo";
+import TelegramIcon from './TelegramIcon'
 
 export default  function Footer() {
     return (
