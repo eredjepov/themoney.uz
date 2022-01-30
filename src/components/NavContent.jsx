@@ -35,18 +35,13 @@ const MobileNavContext = (props) => {
     return (
         <>
             <Flex align="center" justify="space-between" className="nav-content__mobile" {...props}>
-                <Box flexBasis="6rem">
+                <Box>
                     <ToggleButton isOpen={isOpen} onClick={onToggle}/>
                 </Box>
-                <Box as="a" href="/" rel="home" mx="auto">
+                <Box flexGrow={'1'} as="a" href="/" rel="home" mx="auto">
                     <Logo h="36px"/>
                 </Box>
-                <Box
-                    visibility={{
-                        base: 'hidden',
-                        sm: 'visible',
-                    }}
-                >
+                <Box flexBasis="6rem" visibility={{ base: 'hidden', sm: 'visible'}}>
                     <Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">
                         Телеграм &nbsp;  <TelegramIcon/>
                     </Button>

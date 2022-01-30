@@ -1,7 +1,7 @@
 import './App.css';
 
 import CourseList from "./components/CourseList/CourseList";
-import {useState} from "react";
+import {Helmet} from "react-helmet";
 
 import * as React from 'react';
 import {
@@ -26,6 +26,11 @@ import {
     // useColorModeValue as mode
 } from "@chakra-ui/react";
 
+import appleTouchIcon from './images/fav/apple-touch-icon.png'
+import favIcon32 from './images/fav/favicon-32x32.png'
+import favIcon16 from './images/fav/favicon-16x16.png'
+import safariIcon from './images/fav/safari-pinned-tab.svg'
+
 function App(props) {
 
     const {isOpen, onOpen, onClose} = useDisclosure()
@@ -33,6 +38,14 @@ function App(props) {
 
     return (
         <>
+            <Helmet>
+                <title>Dollaruz.biz курс доллара в Узбекистане сегодня</title>
+                <meta
+                    name="description"
+                    content="Курс доллара онлайн в реальном времени по банкам"
+                    data-react-helmet="true"
+                />
+            </Helmet>
 
             <main className="main-part">
 
@@ -58,8 +71,14 @@ function App(props) {
                             <Box maxW="7xl" mx="auto">
                                 <Flex justify="space-between" align="flex-start">
                                     <TabList border="0" position="relative" zIndex={1} w={{base: '100%', md: 'auto'}}>
-                                        <Tab textAlign={'left'} justifyContent="flex-start" fontWeight="semibold" w={{base: 'auto', md: '250px'}}>Банк покупает</Tab>
-                                        <Tab textAlign={'left'} justifyContent={'flex-start'} fontWeight="semibold"  w={{base: 'auto', md: '250px'}}>Банк продает</Tab>
+                                        <Tab textAlign={'left'} justifyContent="flex-start" fontWeight="semibold" w={{
+                                            base: 'auto',
+                                            md: '250px'
+                                        }}>Банк покупает</Tab>
+                                        <Tab textAlign={'left'} justifyContent={'flex-start'} fontWeight="semibold" w={{
+                                            base: 'auto',
+                                            md: '250px'
+                                        }}>Банк продает</Tab>
                                     </TabList>
 
 
@@ -77,9 +96,7 @@ function App(props) {
                                             title={'Банки покупают'}
                                             toCurency={currencies.master.toUpperCase()}
                                             fromCurency={currencies.slave.toUpperCase()}
-                                            buyUrl={urls.buy}
-                                            sellUrl={urls.sell}
-                                            direction={'buy'}
+                                            url={urls.sell}
                                             onCalcOpen={onOpen}
                                             onHistOpen={onOpen}
                                         />
@@ -90,9 +107,7 @@ function App(props) {
                                             title={'Банки продают'}
                                             toCurency={currencies.master.toUpperCase()}
                                             fromCurency={currencies.slave.toUpperCase()}
-                                            buyUrl={urls.buy}
-                                            sellUrl={urls.sell}
-                                            direction={'sell'}
+                                            url={urls.buy}
                                             onCalcOpen={onOpen}
                                             onHistOpen={onOpen}
                                         />

@@ -15,31 +15,25 @@ import {
 //icons
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
+import {GrMap} from "react-icons/gr";
 
 
 function importAll(r) {
     let images = {};
-    r.keys().map((item) => { images[item.replace('./', '')] = r(item); });
+    r.keys().map((item) => {
+        images[item.replace('./', '')] = r(item);
+    });
     return images;
 }
 
 const images = importAll(require.context('../../images', false, /\.(png|jpe?g|svg)$/));
 
 
-
 export default function CourseList(props) {
 
-    const {buyUrl, sellUrl, direction, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
+    const {url, direction, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
 
     const [data, setData] = useState(null)
-
-    const [url, setUrl] = useState(buyUrl)
-
-    useEffect(() => {
-        direction === 'buy'
-            ? setUrl(buyUrl)
-            : setUrl(sellUrl)
-    }, [buyUrl, sellUrl, direction])
 
     useEffect(() => {
         fetch(`${url}`)
@@ -56,7 +50,11 @@ export default function CourseList(props) {
 
     if (!data) {
         return (
-            <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{base: '6', md: '8', lg: '12',}} >
+            <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{
+                base: '6',
+                md: '8',
+                lg: '12',
+            }}>
                 <div>Жди, я загружаю данные...</div>
             </Box>
         )
@@ -78,8 +76,15 @@ export default function CourseList(props) {
         <>
             {data &&
             <>
-                <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4',}} py={{base: '6', md: '8', lg: '12',}}>
-                    <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{base: '8', md: '16',}}>
+                <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4',}} py={{
+                    base: '6',
+                    md: '8',
+                    lg: '12',
+                }}>
+                    <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{
+                        base: '8',
+                        md: '16',
+                    }}>
                         <Stack spacing={{base: '8', md: '10',}} flex="2">
                             <Heading fontSize="2xl" fontWeight="extrabold">
                                 Курс доллара в Узбекистане в реальном времени
@@ -99,26 +104,29 @@ export default function CourseList(props) {
                                     ))
                                     .map(({name, date, rate}, id) => (
 
-                                        <Box direction={{ base: 'column', md: 'row'}} w='100%' >
+                                        <Box direction={{base: 'column', md: 'row'}} w='100%'>
                                             <Stack direction="row" spacing="5" width="full">
-                                                <Image
-                                                    rounded="lg"
-                                                    border={'1px'}
-                                                    borderColor={'gray.200'}
-                                                    width="100px"
-                                                    height="100px"
-                                                    fit="cover"
-                                                    src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
-                                                    alt={name}
-                                                    draggable="false"
-                                                    loading="lazy"
-                                                />
+                                                <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} target={'_blank'}>
+                                                    <Image
+                                                        rounded="lg"
+                                                        border={'1px'}
+                                                        borderColor={'gray.200'}
+                                                        width="100px"
+                                                        height="100px"
+                                                        fit="cover"
+                                                        src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
+                                                        alt={name}
+                                                        draggable="false"
+                                                        loading="lazy"
+                                                    />
+                                                </a>
 
                                                 <Box>
 
                                                     <Stack spacing="0.5">
-                                                        <Text fontWeight="bold">{name}</Text>
-                                                        <Text as="span" fontWeight="b" >
+                                                        <Text fontWeight="bold">{name} &nbsp;
+                                                            <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
+                                                        <Text as="span" fontWeight="b">
                                                             {topCourseBank
                                                                 .rate === rate ? '🔥 ' : null}
                                                             {
@@ -142,7 +150,7 @@ export default function CourseList(props) {
 
                                                     <p>
                                                         <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-                                                        <Link onClick={onHistOpen}  color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                                        <Link onClick={onHistOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
                                                             История курса
                                                         </Link>
                                                     </p>

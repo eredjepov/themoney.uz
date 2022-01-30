@@ -11,7 +11,7 @@ function Header() {
                 <Box bg={mode('white', 'gray.800')} position="relative" zIndex="10">
                     <Box
                         as="nav"
-                        aria-label="Main navigation"
+                        aria-label="Главная навигация"
                         maxW="7xl"
                         mx="auto"
                         px={{
