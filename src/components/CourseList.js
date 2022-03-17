@@ -72,8 +72,8 @@ export default function CourseList(props) {
   }
 
   const topCourseBank = direction === 'buy'
-    ? data.reduce((prev, current) => (prev.rate > current.rate) ? prev : current)
-    : data.reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
+    ? data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current)
+    : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
 
   return (
     <>
@@ -96,66 +96,69 @@ export default function CourseList(props) {
 
               <SimpleGrid columns={[1, null, 2]} gap={6}>
 
-                {data.sort((a, b) =>
-                  (
-                    direction === 'buy'
-                      ? parseFloat(b.rate) - parseFloat(a.rate)
-                      : parseFloat(a.rate) - parseFloat(b.rate)
-                  ))
+                {data.filter((item) => new Date(item.date).getDate() === new Date().getDate())
+
+                  .sort((a, b) =>
+                    (
+                      direction === 'buy'
+                        ? parseFloat(b.rate) - parseFloat(a.rate)
+                        : parseFloat(a.rate) - parseFloat(b.rate)
+                    ))
+
                   .map(({name, date, rate}, id) => (
+                    new Date(date).getDate() < new Date().getDate() ? 'ololo' :
+                      <Box direction={{base: 'column', md: 'row'}} w='100%' key={id}>
+                        <Stack direction="row" spacing="5" width="full">
+                          <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}>
+                            <Image
+                              rounded="lg"
+                              border={'1px'}
+                              borderColor={'gray.200'}
+                              width="100px"
+                              height="100px"
+                              fit="cover"
+                              src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
+                              alt={name}
+                              draggable="false"
+                              loading="lazy"
+                            />
+                          </a>
+                          <Box>
 
-                    <Box direction={{base: 'column', md: 'row'}} w='100%' key={id}>
-                      <Stack direction="row" spacing="5" width="full">
-                        <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"  target={'_blank'}>
-                          <Image
-                            rounded="lg"
-                            border={'1px'}
-                            borderColor={'gray.200'}
-                            width="100px"
-                            height="100px"
-                            fit="cover"
-                            src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
-                            alt={name}
-                            draggable="false"
-                            loading="lazy"
-                          />
-                        </a>
-                        <Box>
+                            <Stack spacing="0.5">
+                              <Text fontWeight="bold">{name} &nbsp;
+                                <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
+                              <Text as="span" fontWeight="b">
+                                {topCourseBank
+                                  .rate === rate ? '🔥 ' : null}
+                                {
+                                  direction === 'buy'
+                                    ? `1 ${toCurency} > ${rate} ${fromCurency}`
+                                    : `${rate} ${fromCurency} >  1 ${toCurency}`
+                                }
+                              </Text>
+                              <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
+                                Обновлено {buildDateString(date)}
+                              </Text>
 
-                          <Stack spacing="0.5">
-                            <Text fontWeight="bold">{name} &nbsp;
-                              <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
-                            <Text as="span" fontWeight="b">
-                              {topCourseBank
-                                .rate === rate ? '🔥 ' : null}
-                              {
-                                direction === 'buy'
-                                  ? `1 ${toCurency} > ${rate} ${fromCurency}`
-                                  : `${rate} ${fromCurency} >  1 ${toCurency}`
-                              }
-                            </Text>
-                            <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
-                              Обновлено {buildDateString(date)}
-                            </Text>
+                            </Stack>
 
-                          </Stack>
+                            <p>
+                              <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
+                              <Link onClick={onCalcOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                Калькулятор
+                              </Link>
+                            </p>
 
-                          <p>
-                            <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                            <Link onClick={onCalcOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
-                              Калькулятор
-                            </Link>
-                          </p>
-
-                          <p>
-                            <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-                            <Link onClick={onHistOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
-                              История курса
-                            </Link>
-                          </p>
-                        </Box>
-                      </Stack>
-                    </Box>
+                            <p>
+                              <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
+                              <Link onClick={onHistOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
+                                История курса
+                              </Link>
+                            </p>
+                          </Box>
+                        </Stack>
+                      </Box>
                   ))}
               </SimpleGrid>
             </Stack>
