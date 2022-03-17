@@ -9,7 +9,6 @@ import {
   useColorModeValue as mode
 } from "@chakra-ui/react";
 
-
 //icons
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
