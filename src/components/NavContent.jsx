@@ -82,8 +82,8 @@ const DesktopNavContent = (props) => {
                     </Box>
                 ))}
             </HStack>
+            
             <HStack spacing="8" minW="240px" justify="flex-end">
-
                 <Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">
                     Telegram &nbsp;
                     <TelegramIcon/>
