@@ -31,8 +31,8 @@ ReactDOM.render(
               }
               title={['доллар', 'доллара']}
               urls={{
-                buy: `${SERVER_URL}/rates/buy`,
-                sell: `${SERVER_URL}/rates/sell`
+                buy: `${SERVER_URL}/rates/usd/buy`,
+                sell: `${SERVER_URL}/rates/usd/sell`
               }
               }
             />}/>
