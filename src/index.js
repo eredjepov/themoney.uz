@@ -7,7 +7,13 @@ import {ChakraProvider} from '@chakra-ui/react'
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-const SERVER_URL = 'https://api.dollaruz.biz'
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  // dev code
+} else {
+  // production code
+}
+
+const SERVER_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://0.0.0.0:8080' : 'https://api.dollaruz.biz'
 
 ReactDOM.render(
   <ChakraProvider>
@@ -25,8 +31,8 @@ ReactDOM.render(
               }
               title={['доллар', 'доллара']}
               urls={{
-                buy: `${SERVER_URL}/rates/buy`,
-                sell: `${SERVER_URL}/rates/sell`
+                buy: `${SERVER_URL}/rates/usd/buy`,
+                sell: `${SERVER_URL}/rates/usd/sell`
               }
               }
             />}/>
