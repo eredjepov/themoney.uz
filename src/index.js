@@ -13,7 +13,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   // production code
 }
 
-const SERVER_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://0.0.0.0:8080' : 'https://api.dollaruz.biz'
+const SERVER_URL = 'https://api.dollaruz.biz'
 
 ReactDOM.render(
   <ChakraProvider>
