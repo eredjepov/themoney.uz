@@ -18,7 +18,7 @@ export default function ModalHistory({content, title, openTxt, ...rest}) {
   const {isOpen, onOpen, onClose} = useDisclosure()
   return (
     <>
-      <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
+      <Link onClick={()=> {onOpen(); console.log('ololo')}} color={'gray.400'} fontSize="sm" textDecoration="underline">
         {openTxt}
       </Link>
 

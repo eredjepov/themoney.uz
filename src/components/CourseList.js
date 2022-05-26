@@ -10,6 +10,8 @@ import {BiStats} from "react-icons/bi";
 import {GrMap} from "react-icons/gr";
 import ModalHistory from "./ModalHistory";
 import ModalCalc from "./ModalCalc";
+import ErrorMessage from "./ErrorMessage";
+import LoadingMessage from "./LoadingMessage";
 
 function importAll(r) {
   let images = {};
@@ -44,19 +46,11 @@ export default function CourseList(props) {
   }
 // loading
   if (!data) {
-    return (<Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{
-      base: '6', md: '8', lg: '12',
-    }}>
-      <div>Жди, я загружаю данные...</div>
-    </Box>)
+    return (<LoadingMessage/>)
   }
 // broken
   if (data.length === 0) {
-    return (<Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{
-      base: '6', md: '8', lg: '12',
-    }}>
-      <div>Что то пошло не так, попробуй лучше позднее...</div>
-    </Box>)
+    return <ErrorMessage/>
   }
 
   const topCourseBank = direction === 'buy' ? data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
