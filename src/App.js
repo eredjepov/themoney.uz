@@ -28,7 +28,9 @@ import {
 
 function App(props) {
 
-  const {isOpen, onOpen, onClose} = useDisclosure()
+  const { isOpen: isCalcOpen , onOpen: onCalcOpen, onClose: onCalcClose } = useDisclosure();
+  const { isOpen: isHistoryOpen , onOpen: onHistoryOpen, onClose: onHistoryClose } = useDisclosure();
+
   const {urls, title, currencies} = props;
 
   return (
@@ -44,22 +46,40 @@ function App(props) {
 
       <main className="main-part">
 
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isCalcOpen} onClose={onCalcClose}>
           <ModalOverlay/>
           <ModalContent>
-            <ModalHeader>В разработке.</ModalHeader>
+            <ModalHeader>Калькулятор в разработке.</ModalHeader>
             <ModalCloseButton/>
             <ModalBody>
               Данный функционал в разработке
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
+              <Button colorScheme='blue' mr={3} onClick={onCalcClose}>
                 Закрыть
               </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
+
+        <Modal isOpen={isHistoryOpen} onClose={onHistoryClose}>
+          <ModalOverlay/>
+          <ModalContent>
+            <ModalHeader>История в разработке.</ModalHeader>
+            <ModalCloseButton/>
+            <ModalBody>
+              Данный функционал в разработке
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3} onClick={onHistoryClose}>
+                Закрыть
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
         <Tabs isFitted>
           <Flex direction="column" align="stretch" minH="100vh">
             <Box bg={mode('gray.50', 'gray.800')} px={{base: '4', md: '8'}} pt="8">
@@ -88,13 +108,14 @@ function App(props) {
                   <TabPanel>
 
                     <CourseList
-                      title={`Курс ${title[1]} в Узбекистане в реальном времени`}                      subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
+                      title={`Курс ${title[1]} в Узбекистане в реальном времени`}
+                      subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
                       toCurency={currencies.master.toUpperCase()}
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'buy'}
                       url={urls.buy}
-                      onCalcOpen={onOpen}
-                      onHistOpen={onOpen}
+                      onCalcOpen={onCalcOpen}
+                      onHistOpen={onHistoryOpen}
                     />
 
                   </TabPanel>
@@ -106,8 +127,8 @@ function App(props) {
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'sell'}
                       url={urls.sell}
-                      onCalcOpen={onOpen}
-                      onHistOpen={onOpen}
+                      onCalcOpen={onCalcOpen}
+                      onHistOpen={onHistoryOpen}
                     />
                   </TabPanel>
 
