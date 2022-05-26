@@ -5,15 +5,6 @@ import {Helmet} from "react-helmet";
 
 import * as React from 'react';
 import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
   Box,
   Divider,
   Flex,
@@ -27,10 +18,6 @@ import {
 } from "@chakra-ui/react";
 
 function App(props) {
-
-  const { isOpen: isCalcOpen , onOpen: onCalcOpen, onClose: onCalcClose } = useDisclosure();
-  const { isOpen: isHistoryOpen , onOpen: onHistoryOpen, onClose: onHistoryClose } = useDisclosure();
-
   const {urls, title, currencies} = props;
 
   return (
@@ -45,40 +32,6 @@ function App(props) {
       </Helmet>
 
       <main className="main-part">
-
-        <Modal isOpen={isCalcOpen} onClose={onCalcClose}>
-          <ModalOverlay/>
-          <ModalContent>
-            <ModalHeader>Калькулятор в разработке.</ModalHeader>
-            <ModalCloseButton/>
-            <ModalBody>
-              Данный функционал в разработке
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onCalcClose}>
-                Закрыть
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-
-        <Modal isOpen={isHistoryOpen} onClose={onHistoryClose}>
-          <ModalOverlay/>
-          <ModalContent>
-            <ModalHeader>История в разработке.</ModalHeader>
-            <ModalCloseButton/>
-            <ModalBody>
-              Данный функционал в разработке
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onHistoryClose}>
-                Закрыть
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
 
         <Tabs isFitted>
           <Flex direction="column" align="stretch" minH="100vh">
@@ -114,8 +67,6 @@ function App(props) {
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'buy'}
                       url={urls.buy}
-                      onCalcOpen={onCalcOpen}
-                      onHistOpen={onHistoryOpen}
                     />
 
                   </TabPanel>
@@ -127,8 +78,7 @@ function App(props) {
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'sell'}
                       url={urls.sell}
-                      onCalcOpen={onCalcOpen}
-                      onHistOpen={onHistoryOpen}
+
                     />
                   </TabPanel>
 

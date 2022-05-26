@@ -3,7 +3,6 @@ import {
     Button,
     Flex,
     HStack,
-    useColorModeValue as mode,
     useDisclosure,
 } from '@chakra-ui/react'
 import * as React from 'react'
