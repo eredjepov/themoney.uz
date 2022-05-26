@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 
 function App(props) {
-
+ 
   const {isOpen, onOpen, onClose} = useDisclosure()
   const {urls, title, currencies} = props;
 

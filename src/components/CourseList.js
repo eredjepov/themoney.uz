@@ -9,6 +9,7 @@ import {
   Link,
   Stack,
   Text,
+  extendTheme,
   useColorModeValue as mode
 } from "@chakra-ui/react";
 
@@ -33,6 +34,15 @@ export default function CourseList(props) {
   const {url, direction, title, subTitle, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
 
   const [data, setData] = useState(null)
+
+  const theme = extendTheme({
+    colors: {
+      brand: {
+        900: '#171923',
+        100: '#EDF2F7'
+      }
+    }
+  })
 
   useEffect(() => {
     fetch(`${url}`)
@@ -127,7 +137,8 @@ export default function CourseList(props) {
 
                             <Stack spacing="0.5">
                               <Text fontWeight="bold">{name} &nbsp;
-                                <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
+                                <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}>
+                                  <Icon as={GrMap} boxSize="4" ml="1" colorScheme="brand.50"/></a></Text>
                               <Text as="span" fontWeight="b">
                                 {topCourseBank
                                   .rate === rate ? '🔥 ' : null}

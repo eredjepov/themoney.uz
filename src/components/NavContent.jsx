@@ -3,10 +3,11 @@ import {
     Button,
     Flex,
     HStack,
-    useColorModeValue as mode,
+    // useColorModeValue,
     useDisclosure,
 } from '@chakra-ui/react'
 import * as React from 'react'
+import ModeSwitcher from './ModeSwitcher'
 import {Logo} from './Logo'
 import {NavLink} from './NavLink'
 import {NavMenu} from './NavMenu'
@@ -46,8 +47,11 @@ const MobileNavContext = (props) => {
                         Телеграм &nbsp;  <TelegramIcon/>
                     </Button>
                 </Box>
+                {/* Не поняла как сделать эту кнопку под значком телеграмм */}
+                <ModeSwitcher/>
             </Flex>
             <NavMenu animate={isOpen ? 'open' : 'closed'}>
+                {/* поменять цвет иконки бургера */}
                 {links.map((link, idx) =>
                     link.children ? (
                         <Submenu.Mobile key={idx} link={link}/>
@@ -83,13 +87,16 @@ const DesktopNavContent = (props) => {
                 ))}
             </HStack>
             <HStack spacing="8" minW="240px" justify="flex-end">
-
+            <ModeSwitcher/>
                 <Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">
                     Telegram &nbsp;
                     <TelegramIcon/>
                 </Button>
             </HStack>
         </Flex>
+        
+            
+        
     )
 }
 
