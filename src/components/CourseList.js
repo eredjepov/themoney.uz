@@ -47,7 +47,7 @@ export default function CourseList(props) {
   useEffect(() => {
     fetch(`${url}`)
       .then(d => d.json())
-      .then(r => setData(r))
+      .then(r => {setData(r);console.log(r)})
       .catch((err) => console.log(err))
   }, [url])
 
