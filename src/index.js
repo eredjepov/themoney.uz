@@ -37,6 +37,38 @@ ReactDOM.render(
               }
             />} />
 
+          <Route path='/rub' element={
+            <App
+              currencies={
+                {
+                  master: 'rub',
+                  slave: 'uzs'
+                }
+              }
+              title={['рубль', 'рубля']}
+              urls={{
+                buy: `${SERVER_URL}/rates/rub/buy`,
+                sell: `${SERVER_URL}/rates/rub/sell`
+              }
+              }
+            />} />
+
+          <Route path='/eur' element={
+            <App
+              currencies={
+                {
+                  master: 'eur',
+                  slave: 'uzs'
+                }
+              }
+              title={['евро', 'евро']}
+              urls={{
+                buy: `${SERVER_URL}/rates/eur/buy`,
+                sell: `${SERVER_URL}/rates/eur/sell`
+              }
+              }
+            />} />
+
         </Routes>
         <Footer />
       </React.StrictMode>

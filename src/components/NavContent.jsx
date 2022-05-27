@@ -19,13 +19,12 @@ const links = [
         href: '/',
     },
     {
-        label: 'Курс евро'
-    },
-    {
-        label: 'Курс фунта стерлинга',
+        label: 'Курс евро',
+        href: '/eur',
     },
     {
         label: 'Курс рубля',
+        href: '/rub',
     },
 ]
 
