@@ -1,7 +1,16 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {
-  Box, SimpleGrid, Heading, Icon, Image, Stack, Text, useColorModeValue as mode
+  Box,
+  SimpleGrid,
+  Heading,
+  Icon,
+  Image,
+  Link,
+  Stack,
+  Text,
+  extendTheme,
+  useColorModeValue as mode
 } from "@chakra-ui/react";
 
 //icons
@@ -29,6 +38,15 @@ export default function CourseList(props) {
   const {url, direction, title, subTitle, toCurency, fromCurency} = props;
 
   const [data, setData] = useState(null)
+
+  const theme = extendTheme({
+    colors: {
+      brand: {
+        900: '#171923',
+        100: '#EDF2F7'
+      }
+    }
+  })
 
   useEffect(() => {
     fetch(`${url}`)
