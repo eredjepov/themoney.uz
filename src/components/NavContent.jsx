@@ -7,6 +7,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react'
 import * as React from 'react'
+import ModeSwitcher from './ModeSwitcher'
 import {Logo} from './Logo'
 import {NavLink} from './NavLink'
 import {NavMenu} from './NavMenu'
@@ -42,12 +43,16 @@ const MobileNavContext = (props) => {
                     <Logo h="36px"/>
                 </Box>
                 <Box flexBasis="6rem" visibility={{ base: 'hidden', sm: 'visible'}}>
+                <ModeSwitcher/>
                     <Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">
-                        Телеграм &nbsp;  <TelegramIcon/>
+                     <TelegramIcon/>
                     </Button>
                 </Box>
+                
+                <ModeSwitcher/>
             </Flex>
             <NavMenu animate={isOpen ? 'open' : 'closed'}>
+                {/* TODO: поменять цвет иконки бургера */}
                 {links.map((link, idx) =>
                     link.children ? (
                         <Submenu.Mobile key={idx} link={link}/>
@@ -68,7 +73,7 @@ const DesktopNavContent = (props) => {
     return (
         <Flex className="nav-content__desktop" align="center" justify="space-between" {...props}>
             <Box as="a" href="/" rel="home">
-                <Logo h="36px" iconColor="blue.500"/>
+                <Logo h="36px" iconColor="blue.500" fill={mode('blue.600', 'blue.300')}/>
             </Box>
 
             <HStack as="ul" id="nav__primary-menu" aria-label="Навигация" listStyleType="none">
@@ -83,13 +88,15 @@ const DesktopNavContent = (props) => {
                 ))}
             </HStack>
             <HStack spacing="8" minW="240px" justify="flex-end">
-
+            <ModeSwitcher/>
                 <Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">
-                    Telegram &nbsp;
                     <TelegramIcon/>
                 </Button>
             </HStack>
         </Flex>
+        
+            
+        
     )
 }
 
