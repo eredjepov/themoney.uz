@@ -1,7 +1,7 @@
 
 import * as React from 'react'
 import {
-    Button,
+    IconButton,
     useColorMode
   } from "@chakra-ui/react";
 
@@ -9,7 +9,8 @@ import {
     const { toggleColorMode } = useColorMode()
     
       return(
-        <Button onClick={toggleColorMode} variant="link" colorScheme="black" p="5">Switch color mode</Button>
+        <IconButton onClick={toggleColorMode} variant="link" colorScheme="black" p="5" aria-label='Search database' icon={<MoonIcon />} />
+
       )
   }
 

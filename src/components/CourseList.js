@@ -16,7 +16,9 @@ import {
 //icons
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
-import {GrMap} from "react-icons/gr";
+import {HiLocationMarker} from "react-icons/hi";
+// import {GrMap} from "react-icons/gr";
+
 
 function importAll(r) {
   let images = {};
@@ -35,14 +37,14 @@ export default function CourseList(props) {
 
   const [data, setData] = useState(null)
 
-  const theme = extendTheme({
-    colors: {
-      brand: {
-        900: '#171923',
-        100: '#EDF2F7'
-      }
-    }
-  })
+  // const theme = extendTheme({
+  //   colors: {
+  //     brand: {
+  //       900: '#171923',
+  //       100: '#EDF2F7'
+  //     }
+  //   }
+  // })
 
   useEffect(() => {
     fetch(`${url}`)
@@ -124,6 +126,7 @@ export default function CourseList(props) {
                               rounded="lg"
                               border={'1px'}
                               borderColor={'gray.200'}
+                              bg={'white'}
                               width="100px"
                               height="100px"
                               fit="cover"
@@ -138,7 +141,7 @@ export default function CourseList(props) {
                             <Stack spacing="0.5">
                               <Text fontWeight="bold">{name} &nbsp;
                                 <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}>
-                                  <Icon as={GrMap} boxSize="4" ml="1" colorScheme="brand.50"/></a></Text>
+                                  <Icon as={HiLocationMarker} boxSize="4" ml="1" color={mode('gray.600', 'gray.400')}/></a></Text>
                               <Text as="span" fontWeight="b">
                                 {topCourseBank
                                   .rate === rate ? '🔥 ' : null}
