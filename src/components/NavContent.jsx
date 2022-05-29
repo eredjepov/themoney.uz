@@ -48,8 +48,6 @@ const MobileNavContext = (props) => {
                      <TelegramIcon/>
                     </Button>
                 </Box>
-                
-                <ModeSwitcher/>
             </Flex>
             <NavMenu animate={isOpen ? 'open' : 'closed'}>
                 {/* TODO: поменять цвет иконки бургера */}

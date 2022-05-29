@@ -9,7 +9,6 @@ import {
   Link,
   Stack,
   Text,
-  extendTheme,
   useColorModeValue as mode
 } from "@chakra-ui/react";
 
@@ -17,7 +16,7 @@ import {
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
 import {HiLocationMarker} from "react-icons/hi";
-// import {GrMap} from "react-icons/gr";
+
 
 
 function importAll(r) {
@@ -36,15 +35,6 @@ export default function CourseList(props) {
   const {url, direction, title, subTitle, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
 
   const [data, setData] = useState(null)
-
-  // const theme = extendTheme({
-  //   colors: {
-  //     brand: {
-  //       900: '#171923',
-  //       100: '#EDF2F7'
-  //     }
-  //   }
-  // })
 
   useEffect(() => {
     fetch(`${url}`)
