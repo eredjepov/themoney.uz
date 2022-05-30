@@ -1,4 +1,4 @@
-import { Box, Center, chakra, VisuallyHidden } from '@chakra-ui/react'
+import { Box, Center, chakra, VisuallyHidden, useColorModeValue as mode } from '@chakra-ui/react'
 import React from 'react'
 const Bar = chakra('span', {
   baseStyle: {
@@ -54,7 +54,8 @@ export const ToggleButton = (props) => {
       px="4"
       py="4"
       as="button"
-      color="gray.800"
+      color={mode('blue.600', 'blue.300')}
+   
       _active={{
         color: 'blue.600',
       }}

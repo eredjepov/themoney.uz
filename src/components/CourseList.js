@@ -9,13 +9,14 @@ import {
   Link,
   Stack,
   Text,
-  extendTheme,
   useColorModeValue as mode
 } from "@chakra-ui/react";
 
 //icons
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
+import {HiLocationMarker} from "react-icons/hi";
+
 import {GrMap} from "react-icons/gr";
 import ModalHistory from "./ModalHistory";
 import ModalCalc from "./ModalCalc";
@@ -38,15 +39,6 @@ export default function CourseList(props) {
   const {url, direction, title, subTitle, toCurency, fromCurency} = props;
 
   const [data, setData] = useState(null)
-
-  const theme = extendTheme({
-    colors: {
-      brand: {
-        900: '#171923',
-        100: '#EDF2F7'
-      }
-    }
-  })
 
   useEffect(() => {
     fetch(`${url}`)
@@ -125,7 +117,6 @@ export default function CourseList(props) {
                           <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
                             Обновлено {buildDateString(date)}
                           </Text>
-
                         </Stack>
 
                         <p>
