@@ -8,11 +8,11 @@ import {
 } from '@chakra-ui/react'
 import * as React from 'react'
 import ModeSwitcher from './ModeSwitcher'
-import {Logo} from './Logo'
-import {NavLink} from './NavLink'
-import {NavMenu} from './NavMenu'
-import {Submenu} from './Submenu'
-import {ToggleButton} from './ToggleButton'
+import { Logo } from './Logo'
+import { NavLink } from './NavLink'
+import { NavMenu } from './NavMenu'
+import { Submenu } from './Submenu'
+import { ToggleButton } from './ToggleButton'
 import TelegramIcon from './TelegramIcon'
 const links = [
     {
@@ -32,20 +32,20 @@ const links = [
 
 
 const MobileNavContext = (props) => {
-    const {isOpen, onToggle} = useDisclosure()
+    const { isOpen, onToggle } = useDisclosure()
     return (
         <>
             <Flex align="center" justify="space-between" className="nav-content__mobile" {...props}>
                 <Box>
-                    <ToggleButton isOpen={isOpen} onClick={onToggle}/>
+                    <ToggleButton isOpen={isOpen} onClick={onToggle} />
                 </Box>
                 <Box flexGrow={'1'} as="a" href="/" rel="home" mx="auto">
-                    <Logo h="36px"/>
+                    <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
                 </Box>
-                <Box flexBasis="6rem" visibility={{ base: 'hidden', sm: 'visible'}}>
-                <ModeSwitcher/>
+                <Box>
+                    <ModeSwitcher p={'1'}/>
                     <Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">
-                     <TelegramIcon/>
+                        <TelegramIcon />
                     </Button>
                 </Box>
             </Flex>
@@ -53,12 +53,12 @@ const MobileNavContext = (props) => {
                 {/* TODO: поменять цвет иконки бургера */}
                 {links.map((link, idx) =>
                     link.children ? (
-                        <Submenu.Mobile key={idx} link={link}/>
+                        <Submenu.Mobile key={idx} link={link} />
                     ) : (
-                        <NavLink.Mobile key={idx} href={link.href}>
-                            {link.label}
-                        </NavLink.Mobile>
-                    ),
+                            <NavLink.Mobile key={idx} href={link.href}>
+                                {link.label}
+                            </NavLink.Mobile>
+                        ),
                 )}
 
 
@@ -71,30 +71,30 @@ const DesktopNavContent = (props) => {
     return (
         <Flex className="nav-content__desktop" align="center" justify="space-between" {...props}>
             <Box as="a" href="/" rel="home">
-                <Logo h="36px" iconColor="blue.500" fill={mode('blue.600', 'blue.300')}/>
+                <Logo h="36px" fill={mode('blue.600', 'blue.300')} />
             </Box>
 
             <HStack as="ul" id="nav__primary-menu" aria-label="Навигация" listStyleType="none">
                 {links.map((link, idx) => (
                     <Box as="li" key={idx} id={`nav__menuitem-${idx}`}>
                         {link.children ? (
-                            <Submenu.Desktop link={link}/>
+                            <Submenu.Desktop link={link} />
                         ) : (
-                            <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
-                        )}
+                                <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
+                            )}
                     </Box>
                 ))}
             </HStack>
             <HStack spacing="8" minW="240px" justify="flex-end">
-            <ModeSwitcher/>
+                <ModeSwitcher p={'5'}/>
                 <Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">
-                    <TelegramIcon/>
+                    <TelegramIcon />
                 </Button>
             </HStack>
         </Flex>
-        
-            
-        
+
+
+
     )
 }
 
