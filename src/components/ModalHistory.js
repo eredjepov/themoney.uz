@@ -12,7 +12,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 // import {RateHistory} from "./RateHistory";
-import {LineChart, Line, XAxis, YAxis} from "recharts";
+import {AreaChart, Area, CartesianGrid, Tooltip, XAxis, YAxis} from 'recharts';
+
 import {useEffect, useState} from "react";
 
 
@@ -36,9 +37,9 @@ export default function ModalHistory({content, title, openTxt, toCurency, direct
 
   const styles = {
     fontFamily: "sans-serif",
-    textAlign: "center"
+    textAlign: "center",
+    paddingTop: "30px"
   };
-
 
   const {isOpen, onOpen, onClose} = useDisclosure()
   return (
@@ -58,16 +59,27 @@ export default function ModalHistory({content, title, openTxt, toCurency, direct
             {content}
             {/*<RateHistory {...rest}/>*/}
             {data && <div style={styles}>
-              <LineChart
+
+
+              <AreaChart
                 width={500}
-                height={300}
+                height={400}
                 data={data}
-                margin={{top: 5, right: 20, bottom: 5, left: 0}}
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
               >
-                <Line type='natural' dataKey="rate" stroke="#8884d8" dot={true}/>
-                <XAxis dataKey="date"/>
+                <CartesianGrid strokeDasharray="3 3"/>
+                <XAxis dataKey="date" interval="preserveStartEnd"/>
                 <YAxis/>
-              </LineChart>
+                <Tooltip />
+                <Area type="monotone" dataKey="rate" name="Курс (UZS)" stroke="#8884d8" fill="#8884d8"/>
+              </AreaChart>
+
+
             </div>}
           </ModalBody>
 
