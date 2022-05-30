@@ -1,5 +1,4 @@
 import * as React from 'react';
-import CourseList from "./CourseList";
 import {
   Button,
   Input,

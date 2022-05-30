@@ -6,7 +6,6 @@ import {
   Heading,
   Icon,
   Image,
-  Link,
   Stack,
   Text,
   useColorModeValue as mode
@@ -15,7 +14,6 @@ import {
 //icons
 import {AiOutlineCalculator} from "react-icons/ai";
 import {BiStats} from "react-icons/bi";
-import {HiLocationMarker} from "react-icons/hi";
 
 import {GrMap} from "react-icons/gr";
 import ModalHistory from "./ModalHistory";
@@ -94,6 +92,7 @@ export default function CourseList(props) {
                         <Image
                           rounded="lg"
                           border={'1px'}
+                          backgroundColor={'white'}
                           borderColor={'gray.200'}
                           width="100px"
                           height="100px"
