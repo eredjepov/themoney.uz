@@ -19,7 +19,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-export default function ModalDialog({ content, title, openTxt, ...rest }) {
+export default function ModalDialog({ content, title, openTxt, rate, ...rest }) {
 
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -46,7 +46,7 @@ export default function ModalDialog({ content, title, openTxt, ...rest }) {
 
               <GridItem colSpan={1}>
                 <FormLabel> USD
-                <Text>Текущий курс</Text>
+                <Text>{rate}</Text>
                 </FormLabel>
               </GridItem>
 

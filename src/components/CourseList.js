@@ -119,6 +119,7 @@ export default function CourseList(props) {
                                      toCurency={toCurency.toLowerCase()}
                                      direction={direction}
                                      id={id}
+                                     rate={rate}
                           />
                         </p>
 
