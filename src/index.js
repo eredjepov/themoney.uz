@@ -13,7 +13,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   // production code
 }
 
-const SERVER_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://0.0.0.0:8080' : 'https://api.dollaruz.biz'
+const SERVER_URL = 'https://api.dollaruz.biz'
 
 ReactDOM.render(
   <ChakraProvider>
@@ -33,6 +33,38 @@ ReactDOM.render(
               urls={{
                 buy: `${SERVER_URL}/rates/usd/buy`,
                 sell: `${SERVER_URL}/rates/usd/sell`
+              }
+              }
+            />} />
+
+          <Route path='/rub' element={
+            <App
+              currencies={
+                {
+                  master: 'rub',
+                  slave: 'uzs'
+                }
+              }
+              title={['рубль', 'рубля']}
+              urls={{
+                buy: `${SERVER_URL}/rates/rub/buy`,
+                sell: `${SERVER_URL}/rates/rub/sell`
+              }
+              }
+            />} />
+
+          <Route path='/eur' element={
+            <App
+              currencies={
+                {
+                  master: 'eur',
+                  slave: 'uzs'
+                }
+              }
+              title={['евро', 'евро']}
+              urls={{
+                buy: `${SERVER_URL}/rates/eur/buy`,
+                sell: `${SERVER_URL}/rates/eur/sell`
               }
               }
             />} />
