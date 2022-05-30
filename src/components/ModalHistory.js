@@ -26,8 +26,10 @@ export default function ModalHistory({content, title, openTxt, toCurency, direct
     fetch(`${url}`)
       .then(d => d.json())
       .then(r => {
-        setData(r);
-        console.log(r)
+        const newData = r.map((item) => {
+          return {rate: item.rate, date: item.date.substring(0, 10)}
+        })
+        setData(newData);
       })
       .catch((err) => console.log(err))
   }, [url])
