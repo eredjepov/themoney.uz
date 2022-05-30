@@ -20,7 +20,7 @@ export default  function Footer() {
                 </Stack>
 
                 <Text fontSize="sm" alignSelf={{base: 'start', sm: 'start'}}>
-                    &copy; {new Date().getFullYear()} <a href="//">dollaruz.biz</a>, Coded with ❤️ and 🥃.
+                    &copy; {new Date().getFullYear()} <a href="//">dollaruz.biz</a>, Coded with ❤️.
                 </Text>
             </Stack>
         </Box>

@@ -5,15 +5,6 @@ import {Helmet} from "react-helmet";
 
 import * as React from 'react';
 import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
   Box,
   Divider,
   Flex,
@@ -27,8 +18,6 @@ import {
 } from "@chakra-ui/react";
 
 function App(props) {
-
-  const {isOpen, onOpen, onClose} = useDisclosure()
   const {urls, title, currencies} = props;
 
   return (
@@ -44,22 +33,6 @@ function App(props) {
 
       <main className="main-part">
 
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay/>
-          <ModalContent>
-            <ModalHeader>В разработке.</ModalHeader>
-            <ModalCloseButton/>
-            <ModalBody>
-              Данный функционал в разработке
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
-                Закрыть
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
         <Tabs isFitted>
           <Flex direction="column" align="stretch" minH="100vh">
             <Box bg={mode('gray.50', 'gray.800')} px={{base: '4', md: '8'}} pt="8">
@@ -88,13 +61,12 @@ function App(props) {
                   <TabPanel>
 
                     <CourseList
-                      title={`Курс ${title[1]} в Узбекистане в реальном времени`}                      subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
+                      title={`Курс ${title[1]} в Узбекистане в реальном времени`}
+                      subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
                       toCurency={currencies.master.toUpperCase()}
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'buy'}
                       url={urls.buy}
-                      onCalcOpen={onOpen}
-                      onHistOpen={onOpen}
                     />
 
                   </TabPanel>
@@ -106,8 +78,7 @@ function App(props) {
                       fromCurency={currencies.slave.toUpperCase()}
                       direction={'sell'}
                       url={urls.sell}
-                      onCalcOpen={onOpen}
-                      onHistOpen={onOpen}
+
                     />
                   </TabPanel>
 
