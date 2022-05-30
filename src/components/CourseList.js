@@ -83,8 +83,8 @@ export default function CourseList(props) {
               {data
                 .sort((a, b) => (direction === 'buy' ? parseFloat(b.rate) - parseFloat(a.rate) : parseFloat(a.rate) - parseFloat(b.rate)))
 
-                .map(({name, date, rate}, id) => (
-                  <Box direction={{base: 'column', md: 'row'}} w='100%' key={id}>
+                .map(({name, date, rate, bankId}) => (
+                  <Box direction={{base: 'column', md: 'row'}} w='100%' key={bankId}>
                     <Stack direction="row" spacing="5" width="full">
                       <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"
                          target={'_blank'}>
@@ -108,44 +108,44 @@ export default function CourseList(props) {
                           <Text fontWeight="bold">{name} &nbsp;
                             <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"
                                target={'_blank'}>
-                            <Icon as={HiLocationMarker} boxSize="4" ml="1"
-                                  color={mode('gray.600', 'gray.400')}/>
+                              <Icon as={HiLocationMarker} boxSize="4" ml="1"
+                                    color={mode('gray.600', 'gray.400')}/>
                             </a></Text>
-                        <Text as="span" fontWeight="b">
-                          {topCourseBank.rate === rate ? '🔥 ' : null}
-                          {direction === 'buy' ? `1 ${toCurency} > ${rate} ${fromCurency}` : `${rate} ${fromCurency} >  1 ${toCurency}`}
-                        </Text>
-                        <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
-                          Обновлено {buildDateString(date)}
-                        </Text>
+                          <Text as="span" fontWeight="b">
+                            {topCourseBank.rate === rate ? '🔥 ' : null}
+                            {direction === 'buy' ? `1 ${toCurency} > ${rate} ${fromCurency}` : `${rate} ${fromCurency} >  1 ${toCurency}`}
+                          </Text>
+                          <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
+                            Обновлено {buildDateString(date)}
+                          </Text>
+                        </Stack>
+
+                        <p>
+                          <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
+                          <ModalCalc content={'Калькулятор для id ' + bankId}
+                                     title={'Калькулятор для ' + name}
+                                     openTxt={'Калькулятор'}
+                                     fromCurency={fromCurency}
+                                     toCurency={toCurency.toLowerCase()}
+                                     direction={direction}
+                                     id={bankId}
+                                     rate={rate}
+                          />
+                        </p>
+
+                        <p>
+                          <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
+                          <ModalHistory content={'История изменения курса UZS к ' + toCurency }
+                                        title={'История курса ' + toCurency + ' в банке ' + name}
+                                        openTxt={'История курса'}
+                                        toCurency={toCurency.toLowerCase()}
+                                        direction={direction}
+                                        id={bankId}
+                          />
+                        </p>
+                      </Box>
                     </Stack>
-
-                    <p>
-                      <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                      <ModalCalc content={'Калькулятор для id ' + id}
-                                 title={'Калькулятор для ' + name}
-                                 openTxt={'Калькулятор'}
-                                 fromCurency={fromCurency}
-                                 toCurency={toCurency.toLowerCase()}
-                                 direction={direction}
-                                 id={id}
-                                 rate={rate}
-                      />
-                    </p>
-
-                    <p>
-                      <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-                      <ModalHistory content={'История для id ' + id}
-                                    title={'История курса для ' + name}
-                                    openTxt={'История курса'}
-                                    toCurency={toCurency.toLowerCase()}
-                                    direction={direction}
-                                    id={id}
-                      />
-                    </p>
-                  </Box>
-                </Stack>
-                </Box>))}
+                  </Box>))}
             </SimpleGrid>
           </Stack>
         </Stack>
