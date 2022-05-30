@@ -8,11 +8,11 @@ import theme from './theme'
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  // dev code
-} else {
-  // production code
-}
+// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+//   // dev code
+// } else {
+//   // production code
+// }
 
 const SERVER_URL = 'https://api.dollaruz.biz'
 
