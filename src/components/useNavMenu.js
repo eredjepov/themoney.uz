@@ -1,11 +1,11 @@
-import { useDisclosure } from '@chakra-ui/react'
-import { getOwnerDocument, isFocusable, isRightClick } from '@chakra-ui/utils'
+import {useDisclosure} from '@chakra-ui/react'
+import {getOwnerDocument, isFocusable, isRightClick} from '@chakra-ui/utils'
 import * as React from 'react'
 
 const getTarget = (event) => event.relatedTarget || document.activeElement
 
 export function useNavMenu() {
-  const { isOpen, onClose, onToggle, onOpen } = useDisclosure()
+  const {isOpen, onClose, onToggle, onOpen} = useDisclosure()
   const menuRef = React.useRef(null)
   const triggerRef = React.useRef(null)
   const timeoutRef = React.useRef()

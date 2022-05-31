@@ -12,74 +12,41 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 // import {RateHistory} from "./RateHistory";
-import { LineChart, Line, XAxis, YAxis } from "recharts";
+import {AreaChart, Area, CartesianGrid, Tooltip, XAxis, YAxis} from 'recharts';
+
+import {useEffect, useState} from "react";
 
 
-const styles = {
-  fontFamily: "sans-serif",
-  textAlign: "center"
-};
+export default function ModalHistory({content, title, openTxt, toCurrency, direction, id}) {
 
+  const url = `https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency}/${id}`;
 
+  const [data, setData] = useState(true);
 
-const data = [{
-  "id": 1123,
-  "rate": "10880",
-  "bankId": 2,
-  "date": "2021-12-21",
-  "name": "InfinBank"
-},
-  {
-    "id": 1124,
-    "rate": "10880",
-    "bankId": 2,
-    "date": "2021-12-21",
-    "name": "InfinBank"
-  },
-  {
-    "id": 1146,
-    "rate": "10880",
-    "bankId": 2,
-    "date": "2021-12-21",
-    "name": "InfinBank"
-  },
-  {
-    "id": 1147,
-    "rate": "10880",
-    "bankId": 2,
-    "date": "2021-12-21",
-    "name": "InfinBank"
-  },
-  {
-    "id": 1160,
-    "rate": "10880",
-    "bankId": 2,
-    "date": "2021-12-21",
-    "name": "InfinBank"
-  },
-  {
-    "id": 1188,
-    "rate": "10880",
-    "bankId": 2,
-    "date": "2021-12-21",
-    "name": "InfinBank"
-  },
-  {
-    "id": 1215,
-    "rate": "10880",
-    "bankId": 2,
-    "date": "2021-12-21",
-    "name": "InfinBank"
-  }];
+  useEffect(() => {
+    fetch(`${url}`)
+      .then(d => d.json())
+      .then(r => {
+        const newData = r.map((item) => {
+          return {rate: item.rate, date: item.date.substring(0, 10)}
+        })
+        setData(newData);
+      })
+      .catch((err) => console.log(err))
+  }, [url])
 
-
-
-export default function ModalHistory({content, title, openTxt, ...rest}) {
+  const styles = {
+    fontFamily: "sans-serif",
+    textAlign: "center",
+    paddingTop: "30px"
+  };
 
   const {isOpen, onOpen, onClose} = useDisclosure()
   return (
     <>
-      <Link onClick={()=> {onOpen()}} color={'gray.400'} fontSize="sm" textDecoration="underline">
+      <Link onClick={() => {
+        onOpen()
+      }} color={'gray.400'} fontSize="sm" textDecoration="underline">
         {openTxt}
       </Link>
 
@@ -90,19 +57,28 @@ export default function ModalHistory({content, title, openTxt, ...rest}) {
           <ModalCloseButton/>
           <ModalBody>
             {content}
-            {/*<RateHistory {...rest}/>*/}
-            <div style={styles}>
-              <LineChart
+
+            {data && <div style={styles}>
+              <AreaChart
                 width={500}
-                height={300}
+                height={400}
                 data={data}
-                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
               >
-                <Line type="monotone" dataKey="rate" stroke="#8884d8" dot={true} />
-                <XAxis dataKey="date" />
-                <YAxis />
-              </LineChart>
-            </div>
+                <CartesianGrid strokeDasharray="3 3"/>
+                <XAxis dataKey="date" interval="preserveStartEnd"/>
+                <YAxis/>
+                <Tooltip/>
+                <Area type="monotone" dataKey="rate" name="Курс (UZS)" stroke="#8884d8" fill="#8884d8"/>
+              </AreaChart>
+
+
+            </div>}
           </ModalBody>
 
           <ModalFooter>

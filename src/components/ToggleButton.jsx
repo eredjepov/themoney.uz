@@ -1,5 +1,6 @@
-import { Box, Center, chakra, VisuallyHidden, useColorModeValue as mode } from '@chakra-ui/react'
+import {Box, Center, chakra, VisuallyHidden, useColorModeValue as mode} from '@chakra-ui/react'
 import React from 'react'
+
 const Bar = chakra('span', {
   baseStyle: {
     display: 'block',
@@ -15,7 +16,7 @@ const Bar = chakra('span', {
 })
 
 const ToggleIcon = (props) => {
-  const { active } = props
+  const {active} = props
   return (
     <Box
       className="group"
@@ -47,7 +48,7 @@ const ToggleIcon = (props) => {
 }
 
 export const ToggleButton = (props) => {
-  const { isOpen, onClick } = props
+  const {isOpen, onClick} = props
   return (
     <Center
       marginStart="-6"
@@ -55,13 +56,13 @@ export const ToggleButton = (props) => {
       py="4"
       as="button"
       color={mode('blue.600', 'blue.300')}
-   
+
       _active={{
         color: 'blue.600',
       }}
       onClick={onClick}
     >
-      <ToggleIcon active={isOpen} />
+      <ToggleIcon active={isOpen}/>
       <VisuallyHidden>Toggle Menu</VisuallyHidden>
     </Center>
   )
