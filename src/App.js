@@ -63,8 +63,8 @@ function App(props) {
                     <CourseList
                       title={`Курс ${title[1]} в Узбекистане в реальном времени`}
                       subTitle={`Банк у тебя купит ${title[0]} по такому курсу`}
-                      toCurency={currencies.master.toUpperCase()}
-                      fromCurency={currencies.slave.toUpperCase()}
+                      toCurrency={currencies.master.toUpperCase()}
+                      fromCurrency={currencies.slave.toUpperCase()}
                       direction={'buy'}
                       url={urls.buy}
                     />
@@ -74,8 +74,8 @@ function App(props) {
                     <CourseList
                       title={`Курс ${title[1]} в Узбекистане в реальном времени`}
                       subTitle={`Банк тебе продаст ${title[0]} по такому курсу`}
-                      toCurency={currencies.master.toUpperCase()}
-                      fromCurency={currencies.slave.toUpperCase()}
+                      toCurrency={currencies.master.toUpperCase()}
+                      fromCurrency={currencies.slave.toUpperCase()}
                       direction={'sell'}
                       url={urls.sell}
 

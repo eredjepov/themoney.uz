@@ -18,10 +18,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-export default function ModalDialog({ content, title, openTxt, rate, ...rest }) {
+export default function ModalDialog({content, title, openTxt, rate, ...rest}) {
 
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const {isOpen, onOpen, onClose} = useDisclosure()
   return (
     <>
       <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
@@ -29,29 +29,29 @@ export default function ModalDialog({ content, title, openTxt, rate, ...rest }) 
       </Link>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay/>
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton/>
           <ModalBody>
             {content}
             <SimpleGrid columns={3} columnGap={3} rowGap={3} w='full'>
 
               <GridItem colSpan={1}>
                 <FormLabel> USD
-            <Input placeholder='100' />
+                  <Input placeholder='100'/>
                 </FormLabel>
               </GridItem>
 
               <GridItem colSpan={1}>
                 <FormLabel> USD
-                <Text>{rate}</Text>
+                  <Text>{rate}</Text>
                 </FormLabel>
               </GridItem>
 
               <GridItem colSpan={1}>
                 <FormLabel> RUB
-            <Input placeholder='6500' />
+                  <Input placeholder='6500'/>
                 </FormLabel>
               </GridItem>
 
