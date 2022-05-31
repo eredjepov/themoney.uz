@@ -74,9 +74,11 @@ export default function CourseList(props) {
     return <ErrorMessage/>
   }
 
-  const topCourseBank = direction === 'buy'
-    ? data
-      .filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
+  const topCourseBank = direction === 'buy' ?
+    data
+      .reduce((prev, current) => (prev.rate > current.rate) ? prev : current) :
+    data
+      .reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
 
   return (<>
 
