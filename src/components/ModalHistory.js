@@ -57,10 +57,8 @@ export default function ModalHistory({content, title, openTxt, toCurrency, direc
           <ModalCloseButton/>
           <ModalBody>
             {content}
-            {/*<RateHistory {...rest}/>*/}
+
             {data && <div style={styles}>
-
-
               <AreaChart
                 width={500}
                 height={400}

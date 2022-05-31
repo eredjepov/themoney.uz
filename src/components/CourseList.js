@@ -4,13 +4,8 @@ import {
   Box,
   SimpleGrid,
   Heading,
-  Icon,
-  Image,
   Stack,
-  Text,
-  useColorModeValue as mode,
   useDisclosure,
-  Link,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -22,14 +17,10 @@ import {
 } from "@chakra-ui/react";
 
 //icons
-import {AiOutlineCalculator} from "react-icons/ai";
-import {BiStats} from "react-icons/bi";
 
-import {HiLocationMarker} from "react-icons/hi";
-// import ModalHistory from "./ModalHistory";
-import ModalCalc from "./ModalCalc";
 import ErrorMessage from "./ErrorMessage";
 import LoadingMessage from "./LoadingMessage";
+import CourseItem from "./CourseItem"
 import {Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis} from "recharts";
 
 function importAll(r) {
@@ -44,34 +35,30 @@ function importAll(r) {
 const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
 
 export default function CourseList(props) {
-
-
-  const {isOpen, onOpen, onClose} = useDisclosure()
-  const {isHistoryOpen, onHistoryOpen, onHistoryClose} = useDisclosure()
-
-  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
-
-  const [data, setData] = useState(null)
-  const [histData, setHistData] = useState(null)
-  const [histUrl, setHistUrl] = useState(null)
-
-  useEffect(() => {
+  const fetchFn = (url, where) => {
     fetch(`${url}`)
       .then(d => d.json())
       .then(r => {
-        setData(r);
+        where(r);
       })
       .catch((err) => console.log(err))
-  }, [url])
+  }
+
+  const fetchHistoryData = (histUrl) => {
+    fetchFn(histUrl, setHistData)
+  }
+
+  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
+
+  const {isOpen: isHistoryOpen, onOpen: onHistoryOpen, onClose: onHistoryClose} = useDisclosure();
+
+  const [data, setData] = useState(null)
+  const [histData, setHistData] = useState(null)
 
   useEffect(() => {
-    fetch(`${histUrl}`)
-      .then(d => d.json())
-      .then(r => {
-        setHistData(r);
-      })
-      .catch((err) => console.log(err))
-  }, [histUrl])
+    fetchFn(url, setData)
+  }, [url])
+
 
   const buildDateString = (date) => {
     const time = new Date(date)
@@ -87,21 +74,21 @@ export default function CourseList(props) {
     return <ErrorMessage/>
   }
 
-  const topCourseBank = direction === 'buy' ? data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
+  const topCourseBank = direction === 'buy'
+    ? data
+      .filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
 
   return (<>
 
     <Modal isOpen={isHistoryOpen} size={'2xl'} onClose={onHistoryClose}>
       <ModalOverlay/>
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader>История курса</ModalHeader>
         <ModalCloseButton/>
         <ModalBody>
-          History modal
-          {/*<RateHistory {...rest}/>*/}
-          {<div>
+          <Box pb={30}>График изменения курса</Box>
 
-
+          {!histData ? <LoadingMessage/> :
             <AreaChart
               width={500}
               height={400}
@@ -117,11 +104,13 @@ export default function CourseList(props) {
               <XAxis dataKey="date" interval="preserveStartEnd"/>
               <YAxis/>
               <Tooltip/>
-              <Area type="monotone" dataKey="rate" name="Курс (UZS)" stroke="#8884d8" fill="#8884d8"/>
+              <Area type="monotone"
+                    dataKey="rate"
+                    name={`Курс 1 ${toCurrency} = ${fromCurrency}`}
+                    stroke="#8884d8"
+                    fill="#8884d8"/>
             </AreaChart>
-
-
-          </div>}
+          }
         </ModalBody>
 
         <ModalFooter>
@@ -131,15 +120,7 @@ export default function CourseList(props) {
         </ModalFooter>
       </ModalContent>
     </Modal>
-    <Link onClick={() => {
-      onHistoryOpen();
-      console.log(12312312)
-    }}
-          color={'gray.400'}
-          fontSize="sm"
-          textDecoration="underline">
-      История курса
-    </Link>
+
     {data && <>
       <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4'}} py={{
         base: '6', md: '8', lg: '12'
@@ -160,71 +141,14 @@ export default function CourseList(props) {
                 .sort((a, b) => (direction === 'buy' ? parseFloat(b.rate) - parseFloat(a.rate) : parseFloat(a.rate) - parseFloat(b.rate)))
 
                 .map(({name, date, rate, bankId}) => (
-                  <Box direction={{base: 'column', md: 'row'}} w='100%' key={bankId}>
-                    <Stack direction="row" spacing="5" width="full">
-                      <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"
-                         target={'_blank'}>
-                        <Image
-                          rounded="lg"
-                          border={'1px'}
-                          backgroundColor={'white'}
-                          borderColor={'gray.200'}
-                          width="100px"
-                          height="100px"
-                          fit="cover"
-                          src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
-                          alt={name}
-                          draggable="false"
-                          loading="lazy"
-                        />
-                      </a>
-                      <Box>
-
-                        <Stack spacing="0.5">
-                          <Text fontWeight="bold">{name} &nbsp;
-                            <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"
-                               target={'_blank'}>
-                              <Icon as={HiLocationMarker} boxSize="4" ml="1"
-                                    color={mode('gray.600', 'gray.400')}/>
-                            </a></Text>
-                          <Text as="span" fontWeight="b">
-                            {topCourseBank.rate === rate ? '🔥 ' : null}
-                            {direction === 'buy' ? `1 ${toCurrency} > ${rate} ${fromCurrency}` : `${rate} ${fromCurrency} >  1 ${toCurrency}`}
-                          </Text>
-                          <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
-                            Обновлено {buildDateString(date)}
-                          </Text>
-                        </Stack>
-
-                        <p>
-                          <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                          <ModalCalc content={'Калькулятор для id ' + bankId}
-                                     title={'Калькулятор для ' + name}
-                                     openTxt={'Калькулятор'}
-                                     fromCurrency={fromCurrency}
-                                     toCurrency={toCurrency.toLowerCase()}
-                                     direction={direction}
-                                     id={bankId}
-                                     rate={rate}
-                          />
-                        </p>
-
-                        <p>
-                          <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-
-                          <Link onClick={() => {
-                            onOpen();
-                            setHistUrl(`https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
-                          }}
-                                color={'gray.400'}
-                                fontSize="sm"
-                                textDecoration="underline">
-                            История курса
-                          </Link>
-                        </p>
-                      </Box>
-                    </Stack>
-                  </Box>))}
+                  <CourseItem images={images} key={bankId} name={name} topCourseBank={topCourseBank} rate={rate}
+                              direction={direction}
+                              toCurrency={toCurrency} fromCurrency={fromCurrency} s={buildDateString(date)}
+                              bankId={bankId} onClick={() => {
+                    onHistoryOpen();
+                    setHistData(null);
+                    fetchHistoryData(`https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
+                  }}/>))}
             </SimpleGrid>
           </Stack>
         </Stack>
