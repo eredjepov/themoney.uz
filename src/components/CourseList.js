@@ -26,7 +26,7 @@ const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$
 
 export default function CourseList(props) {
 
-  const {url, direction, title, subTitle, toCurency, fromCurency} = props;
+  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
 
   const [data, setData] = useState(null)
 
@@ -102,7 +102,7 @@ export default function CourseList(props) {
                                target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
                           <Text as="span" fontWeight="b">
                             {topCourseBank.rate === rate ? '🔥 ' : null}
-                            {direction === 'buy' ? `1 ${toCurency} > ${rate} ${fromCurency}` : `${rate} ${fromCurency} >  1 ${toCurency}`}
+                            {direction === 'buy' ? `1 ${toCurrency} > ${rate} ${fromCurrency}` : `${rate} ${fromCurrency} >  1 ${toCurrency}`}
                           </Text>
                           <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
                             Обновлено {buildDateString(date)}
@@ -115,8 +115,8 @@ export default function CourseList(props) {
                           <ModalCalc content={'Калькулятор для id ' + id}
                                      title={'Калькулятор для ' + name}
                                      openTxt={'Калькулятор'}
-                                     fromCurency={fromCurency}
-                                     toCurency={toCurency.toLowerCase()}
+                                     fromCurrency={fromCurrency}
+                                     toCurrency={toCurrency}
                                      direction={direction}
                                      id={id}
                                      rate={rate}
@@ -128,7 +128,7 @@ export default function CourseList(props) {
                           <ModalHistory content={'История для id ' + id}
                                         title={'История курса для ' + name}
                                         openTxt={'История курса'}
-                                        toCurency={toCurency.toLowerCase()}
+                                        toCurrency={toCurrency.toLowerCase()}
                                         direction={direction}
                                         id={id}
                           />

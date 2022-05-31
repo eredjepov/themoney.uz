@@ -1,5 +1,6 @@
 import * as React from 'react';
-import CourseList from "./CourseList";
+// import { useState, useEffect } from 'react';
+
 import {
   Button,
   Input,
@@ -14,13 +15,20 @@ import {
   Link,
   SimpleGrid,
   GridItem,
-  FormControl,
   FormLabel,
   useDisclosure,
 } from "@chakra-ui/react";
 
-export default function ModalDialog({ content, title, openTxt, rate, ...rest }) {
+export default function ModalDialog({ content, title, openTxt, rate, fromCurrency, toCurrency, ...rest }) {
 
+  // const [ currency, setCurrency] = useState(null);
+  // const [ value, setValue] = useState(null);
+  // const [total, setTotal] = useState(null);
+
+  const onChange = (event) => {
+    fromCurrency.innerHTML = event.target.value
+
+  }
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
@@ -39,20 +47,29 @@ export default function ModalDialog({ content, title, openTxt, rate, ...rest }) 
             <SimpleGrid columns={3} columnGap={3} rowGap={3} w='full'>
 
               <GridItem colSpan={1}>
-                <FormLabel> USD
-            <Input placeholder='100' />
+                <FormLabel> {fromCurrency}
+                  <Input placeholder='100'
+                    type='number'
+                    value=''
+                    onChange={onChange}
+                    name='fromCurrency' />
                 </FormLabel>
               </GridItem>
 
               <GridItem colSpan={1}>
-                <FormLabel> USD
-                <Text>{rate}</Text>
+                <FormLabel> Курс {fromCurrency}
+                  <Text p='2'>{rate}</Text>
                 </FormLabel>
               </GridItem>
 
               <GridItem colSpan={1}>
-                <FormLabel> RUB
-            <Input placeholder='6500' />
+                <FormLabel> {toCurrency}
+                  {/* TODO: не забыть про toFixed(1).  */}
+
+                  <Input placeholder='6500'
+                    // value={()=> setTotal(fromCurrency * {rate}.toFixed(2))}
+                    type='number'
+                    name='toCurrency' />
                 </FormLabel>
               </GridItem>
 
