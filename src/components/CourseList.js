@@ -112,7 +112,7 @@ export default function CourseList(props) {
 
                         <p>
                           <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                          <ModalCalc content={'Калькулятор для id ' + id}
+                          <ModalCalc content={'Калькулятор для ' + id}
                                      title={'Калькулятор для ' + name}
                                      openTxt={'Калькулятор'}
                                      fromCurrency={fromCurrency}

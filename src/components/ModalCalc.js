@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import {
   Button,
@@ -21,15 +21,13 @@ import {
 
 export default function ModalDialog({ content, title, openTxt, rate, fromCurrency, toCurrency, ...rest }) {
 
-  // const [ currency, setCurrency] = useState(null);
-  // const [ value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState(null);
   // const [total, setTotal] = useState(null);
-
-  const onChange = (event) => {
-    fromCurrency.innerHTML = event.target.value
-
-  }
-
+  
+  // const result = () => {
+  //   toCurrency = (inputValue * {rate}.toFixed(2))
+  // }
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -50,8 +48,7 @@ export default function ModalDialog({ content, title, openTxt, rate, fromCurrenc
                 <FormLabel> {fromCurrency}
                   <Input placeholder='100'
                     type='number'
-                    value=''
-                    onChange={onChange}
+                    onChange={(event)=> setInputValue(event.target.value)}
                     name='fromCurrency' />
                 </FormLabel>
               </GridItem>
@@ -67,7 +64,7 @@ export default function ModalDialog({ content, title, openTxt, rate, fromCurrenc
                   {/* TODO: не забыть про toFixed(1).  */}
 
                   <Input placeholder='6500'
-                    // value={()=> setTotal(fromCurrency * {rate}.toFixed(2))}
+                    // value={()=> setTotal(inputValue * {rate}.toFixed(2))}
                     type='number'
                     name='toCurrency' />
                 </FormLabel>
