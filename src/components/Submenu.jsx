@@ -1,14 +1,14 @@
-import { Box, Collapse, SimpleGrid, useDisclosure } from '@chakra-ui/react'
+import {Box, Collapse, SimpleGrid, useDisclosure} from '@chakra-ui/react'
 import * as React from 'react'
-import { FaChevronDown } from 'react-icons/fa'
-import { NavLink } from './NavLink'
-import { NavMenu } from './NavMenu'
-import { SubmenuItem as DesktopMenuItem } from './SubmenuItem'
-import { useNavMenu } from './useNavMenu'
+import {FaChevronDown} from 'react-icons/fa'
+import {NavLink} from './NavLink'
+import {NavMenu} from './NavMenu'
+import {SubmenuItem as DesktopMenuItem} from './SubmenuItem'
+import {useNavMenu} from './useNavMenu'
 
 const DesktopSubmenu = (props) => {
-  const { link } = props
-  const { isOpen, getMenuProps, getTriggerProps } = useNavMenu()
+  const {link} = props
+  const {isOpen, getMenuProps, getTriggerProps} = useNavMenu()
   return (
     <>
       <NavLink.Desktop
@@ -21,7 +21,7 @@ const DesktopSubmenu = (props) => {
         {...getTriggerProps()}
       >
         <Box>{link.label}</Box>
-        <Box marginStart="2" as={FaChevronDown} fontSize="xs" />
+        <Box marginStart="2" as={FaChevronDown} fontSize="xs"/>
       </NavLink.Desktop>
 
       <NavMenu {...getMenuProps()} animate={isOpen ? 'open' : 'closed'}>
@@ -40,8 +40,8 @@ const DesktopSubmenu = (props) => {
 }
 
 const MobileSubMenu = (props) => {
-  const { link } = props
-  const { isOpen, onToggle } = useDisclosure()
+  const {link} = props
+  const {isOpen, onToggle} = useDisclosure()
   return (
     <Box>
       <NavLink.Mobile
@@ -53,7 +53,7 @@ const MobileSubMenu = (props) => {
         paddingEnd="4"
       >
         <Box flex="1">{link.label}</Box>
-        <Box as={FaChevronDown} transform={`rotate(${isOpen ? '180deg' : '0deg'})`} />
+        <Box as={FaChevronDown} transform={`rotate(${isOpen ? '180deg' : '0deg'})`}/>
       </NavLink.Mobile>
       <Collapse in={isOpen}>
         <Box pl="5">

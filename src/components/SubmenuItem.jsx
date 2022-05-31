@@ -1,9 +1,9 @@
-import { Box, Center, chakra, HStack, Text, useColorModeValue as mode } from '@chakra-ui/react'
+import {Box, Center, chakra, HStack, Text, useColorModeValue as mode} from '@chakra-ui/react'
 import * as React from 'react'
-import { FaChevronRight } from 'react-icons/fa'
+import {FaChevronRight} from 'react-icons/fa'
 
 export const SubmenuItem = (props) => {
-  const { title, icon, children, href, ...rest } = props
+  const {title, icon, children, href, ...rest} = props
   return (
     <chakra.a
       className="group"

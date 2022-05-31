@@ -6,11 +6,11 @@ import {useEffect, useState} from "react";
 
 
 export const RateHistory = (props) => {
-  const {toCurency, direction, id} = props;
+  const {toCurrency, direction, id} = props;
   const [data, setData] = useState(true)
 
 
-  const url = `https://upd.dollaruz.biz/history/rates/${direction}/${toCurency}/${id}`;
+  const url = `https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency}/${id}`;
 
   useEffect(() => {
     fetch(`${url}`)
@@ -25,7 +25,7 @@ export const RateHistory = (props) => {
   return (<>
       {data &&
         <>
-          {`${toCurency} ${direction}`}
+          {`${toCurrency} ${direction}`}
           {/*<ResponsiveContainer width="100%" height="100%">*/}
           {/*  <LineChart*/}
           {/*    width={400}*/}

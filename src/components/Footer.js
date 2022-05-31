@@ -8,9 +8,9 @@ import {
   IconButton,
   useColorModeValue as mode
 } from "@chakra-ui/react";
+
 import {FaTelegram} from 'react-icons/fa'
 import {Logo} from "./Logo";
-import TelegramIcon from './TelegramIcon'
 
 export default function Footer() {
   return (
