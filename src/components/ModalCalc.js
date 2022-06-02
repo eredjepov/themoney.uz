@@ -17,56 +17,65 @@ import {
   GridItem,
   FormLabel,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
-export default function ModalDialog({ content, title, openTxt, rate, fromCurrency, toCurrency, ...rest }) {
+export default function ModalDialog({ content, title, openTxt, rate, fromCurrency, toCurrency, bankName, direction, ...rest }) {
 
-  const [inputValue, setInputValue] = useState(null);
-  // const [total, setTotal] = useState(null);
-  
-  // const result = () => {
-  //   toCurrency = (inputValue * {rate}.toFixed(2))
-  // }
+  const [leftValue, setLeftValue] = useState(null);
+  const [rightValue, setRightValue] = useState(null);
+  console.log(leftValue)
+  console.log(rightValue)
   
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isMobile] = useMediaQuery('(max-width: 320px)')
+  
   return (
     <>
       <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
         {openTxt}
       </Link>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent> {direction}
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {content}
-            <SimpleGrid columns={3} columnGap={3} rowGap={3} w='full'>
-
-              <GridItem colSpan={1}>
-                <FormLabel> {fromCurrency}
-                  <Input placeholder='100'
-                    type='number'
-                    onChange={(event)=> setInputValue(event.target.value)}
-                    name='fromCurrency' />
-                </FormLabel>
-              </GridItem>
-
-              <GridItem colSpan={1}>
-                <FormLabel> Курс {fromCurrency}
-                  <Text p='2'>{rate}</Text>
-                </FormLabel>
-              </GridItem>
-
-              <GridItem colSpan={1}>
-                <FormLabel> {toCurrency}
-                  {/* TODO: не забыть про toFixed(1).  */}
-
-                  <Input placeholder='6500'
-                    // value={()=> setTotal(inputValue * {rate}.toFixed(2))}
+            
+            <SimpleGrid columns={isMobile ? '1' : '3'} columnGap={3} rowGap={3} w='full'>
+            {/* левый */}
+            <GridItem colSpan={1}>
+                <FormLabel> У вас есть {direction === 'buy' ? toCurrency : fromCurrency}
+                  <Input placeholder='900'
+                    onChange={(event)=> {
+                      setLeftValue(event.target.value); 
+                      direction === 'buy' 
+                      ? setRightValue(event.target.value * rate) 
+                      : setRightValue((event.target.value / rate).toFixed(3))}}
+                    value={leftValue}
                     type='number'
                     name='toCurrency' />
+                </FormLabel>
+              </GridItem>
+
+              <GridItem colSpan={1}>
+                <FormLabel> Курс {bankName}
+                  <Text p='1'>{rate}</Text>
+                </FormLabel>
+              </GridItem>
+
+            {/* правый */}
+              <GridItem colSpan={1}>
+                <FormLabel> Вы получите {direction === 'sell' ? toCurrency : fromCurrency}
+                  <Input placeholder='100'
+                  value={rightValue}
+                    type='number'
+                    onChange={(event)=> {setRightValue(event.target.value); 
+                      direction === 'buy'
+                      ? setLeftValue((event.target.value / rate).toFixed(3))
+                      : setLeftValue((event.target.value * rate).toFixed(3))}}
+                    name='fromCurrency' />
                 </FormLabel>
               </GridItem>
 

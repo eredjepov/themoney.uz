@@ -114,6 +114,7 @@ export default function CourseList(props) {
                           <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
                           <ModalCalc content={'Калькулятор для ' + id}
                                      title={'Калькулятор для ' + name}
+                                     bankName={name}
                                      openTxt={'Калькулятор'}
                                      fromCurrency={fromCurrency}
                                      toCurrency={toCurrency}

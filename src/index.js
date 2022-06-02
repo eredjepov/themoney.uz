@@ -25,6 +25,7 @@ ReactDOM.render(
             <App
               currencies={
                 {
+                  // TODO: replace MAJOR and MINOR
                   master: 'usd',
                   slave: 'uzs'
                 }
