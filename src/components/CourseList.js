@@ -35,7 +35,15 @@ function importAll(r) {
 const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
 
 export default function CourseList(props) {
+
+  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
+
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+
   const fetchFn = (url, where) => {
+
     fetch(`${url}`)
       .then(d => d.json())
       .then(r => {
@@ -138,10 +146,8 @@ export default function CourseList(props) {
             </h2>
 
             <SimpleGrid columns={[1, null, 2]} gap={6}>
-
               {data
                 .sort((a, b) => (direction === 'buy' ? parseFloat(b.rate) - parseFloat(a.rate) : parseFloat(a.rate) - parseFloat(b.rate)))
-
                 .map(({name, date, rate, bankId}) => (
                   <CourseItem images={images} key={bankId} name={name} topCourseBank={topCourseBank} rate={rate}
                               direction={direction}

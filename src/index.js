@@ -17,9 +17,9 @@ import Footer from "./components/Footer";
 const SERVER_URL = 'https://api.dollaruz.biz'
 
 ReactDOM.render(
+
   <>
     <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-
     <ChakraProvider>
 
       <BrowserRouter>

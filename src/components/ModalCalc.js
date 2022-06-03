@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+import { useState } from 'react';
+
 import {
   Button,
   Input,
@@ -13,45 +16,68 @@ import {
   Link,
   SimpleGrid,
   GridItem,
-  FormControl,
   FormLabel,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
-export default function ModalDialog({content, title, openTxt, rate, ...rest}) {
 
+export default function ModalDialog({ content, title, openTxt, rate, fromCurrency, toCurrency, bankName, direction, ...rest }) {
 
-  const {isOpen, onOpen, onClose} = useDisclosure()
+  const [leftValue, setLeftValue] = useState(null);
+  const [rightValue, setRightValue] = useState(null);
+  console.log(leftValue)
+  console.log(rightValue)
+  
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isMobile] = useMediaQuery('(max-width: 320px)')
+  
+
   return (
     <>
       <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
         {openTxt}
       </Link>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay/>
-        <ModalContent>
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} size='xl'>
+        <ModalOverlay />
+        <ModalContent> {direction}
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton/>
           <ModalBody>
-            {content}
-            <SimpleGrid columns={3} columnGap={3} rowGap={3} w='full'>
-
-              <GridItem colSpan={1}>
-                <FormLabel> USD
-                  <Input placeholder='100'/>
+            <SimpleGrid columns={isMobile ? '1' : '3'} columnGap={3} rowGap={3} w='full'>
+            {/* левый */}
+            <GridItem colSpan={1}>
+                <FormLabel> У вас есть {direction === 'buy' ? toCurrency : fromCurrency}
+                  <Input placeholder='900'
+                    onChange={(event)=> {
+                      setLeftValue(event.target.value); 
+                      direction === 'buy' 
+                      ? setRightValue(event.target.value * rate) 
+                      : setRightValue((event.target.value / rate).toFixed(3))}}
+                    value={leftValue}
+                    type='number'
+                    name='toCurrency' />
                 </FormLabel>
               </GridItem>
 
               <GridItem colSpan={1}>
-                <FormLabel> USD
-                  <Text>{rate}</Text>
+                <FormLabel> Курс {bankName}
+                  <Text p='1'>{rate}</Text>
                 </FormLabel>
               </GridItem>
 
+            {/* правый */}
               <GridItem colSpan={1}>
-                <FormLabel> RUB
-                  <Input placeholder='6500'/>
+                <FormLabel> Вы получите {direction === 'sell' ? toCurrency : fromCurrency}
+                  <Input placeholder='100'
+                  value={rightValue}
+                    type='number'
+                    onChange={(event)=> {setRightValue(event.target.value); 
+                      direction === 'buy'
+                      ? setLeftValue((event.target.value / rate).toFixed(3))
+                      : setLeftValue((event.target.value * rate).toFixed(3))}}
+                    name='fromCurrency' />
                 </FormLabel>
               </GridItem>
 
