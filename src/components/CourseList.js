@@ -47,8 +47,9 @@ export default function CourseList(props) {
   const [leftValue, setLeftValue] = useState(null);
   const [rightValue, setRightValue] = useState(null);
   const [currentRate, setCurrentRate] = useState(null);
+  const [currentBankName, setCurrentBankName] = useState(null);
 
-  const [isMobile] = useMediaQuery('(max-width: 320px)')
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   const [data, setData] = useState(null)
 
@@ -135,19 +136,23 @@ export default function CourseList(props) {
     <Modal blockScrollOnMount={false} isOpen={isCalcOpen} onClose={onCalcClose} size='xl'>
       <ModalOverlay/>
       <ModalContent> {direction}
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader>Калькулятор валюты для {currentBankName}</ModalHeader>
         <ModalCloseButton/>
         <ModalBody>
-          <SimpleGrid columns={isMobile ? '1' : '3'} columnGap={3} rowGap={3} w='full'>
+          <Text pb={'20px'} fontWeight={700}>
+            {direction === 'buy' ? 'Банк покупает ' : 'Банк продает '}
+            {toCurrency} за {currentRate} {direction === 'sell' ? toCurrency : fromCurrency}
+          </Text>
+          <SimpleGrid columns={isMobile ? '1' : '2'} columnGap={3} rowGap={3} w='full'>
             {/* левый */}
             <GridItem colSpan={1}>
               <FormLabel> У вас есть {direction === 'buy' ? toCurrency : fromCurrency}
-                <Input placeholder='900'
+                <Input placeholder='Введите цифру'
                        onChange={(event) => {
                          setLeftValue(event.target.value);
                          direction === 'buy'
                            ? setRightValue(event.target.value * currentRate)
-                           : setRightValue((event.target.value / currentRate).toFixed(3))
+                           : setRightValue((event.target.value / currentRate).toFixed(2))
                        }}
                        value={leftValue}
                        type='number'
@@ -155,24 +160,17 @@ export default function CourseList(props) {
               </FormLabel>
             </GridItem>
 
-            <GridItem colSpan={1}>
-              <FormLabel> Курс
-                {/*{bankName}*/}
-                <Text p='1'>{currentRate}</Text>
-              </FormLabel>
-            </GridItem>
-
             {/* правый */}
             <GridItem colSpan={1}>
               <FormLabel> Вы получите {direction === 'sell' ? toCurrency : fromCurrency}
-                <Input placeholder='100'
+                <Input placeholder='Введите цифру'
                        value={rightValue}
                        type='number'
                        onChange={(event) => {
                          setRightValue(event.target.value);
                          direction === 'buy'
-                           ? setLeftValue((event.target.value / currentRate).toFixed(3))
-                           : setLeftValue((event.target.value * currentRate).toFixed(3))
+                           ? setLeftValue((event.target.value / currentRate).toFixed(2))
+                           : setLeftValue((event.target.value * currentRate).toFixed(2))
                        }}
                        name='fromCurrency'/>
               </FormLabel>
@@ -222,6 +220,7 @@ export default function CourseList(props) {
                                 setCurrentRate(rate);
                                 setLeftValue('');
                                 setRightValue('');
+                                setCurrentBankName(name)
                               }}
                   />))}
             </SimpleGrid>
