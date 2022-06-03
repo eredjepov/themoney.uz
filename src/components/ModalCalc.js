@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { useState } from 'react';
 
 import {
@@ -20,6 +21,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
+
 export default function ModalDialog({ content, title, openTxt, rate, fromCurrency, toCurrency, bankName, direction, ...rest }) {
 
   const [leftValue, setLeftValue] = useState(null);
@@ -30,6 +32,7 @@ export default function ModalDialog({ content, title, openTxt, rate, fromCurrenc
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isMobile] = useMediaQuery('(max-width: 320px)')
   
+
   return (
     <>
       <Link onClick={onOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
@@ -40,9 +43,8 @@ export default function ModalDialog({ content, title, openTxt, rate, fromCurrenc
         <ModalOverlay />
         <ModalContent> {direction}
           <ModalHeader>{title}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton/>
           <ModalBody>
-            
             <SimpleGrid columns={isMobile ? '1' : '3'} columnGap={3} rowGap={3} w='full'>
             {/* левый */}
             <GridItem colSpan={1}>

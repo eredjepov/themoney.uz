@@ -1,17 +1,27 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {
-  Box, SimpleGrid, Heading, Icon, Image, Stack, Text, useColorModeValue as mode
+  Box,
+  SimpleGrid,
+  Heading,
+  Stack,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button
 } from "@chakra-ui/react";
 
 //icons
-import {AiOutlineCalculator} from "react-icons/ai";
-import {BiStats} from "react-icons/bi";
-import {GrMap} from "react-icons/gr";
-import ModalHistory from "./ModalHistory";
-import ModalCalc from "./ModalCalc";
+
 import ErrorMessage from "./ErrorMessage";
 import LoadingMessage from "./LoadingMessage";
+import CourseItem from "./CourseItem"
+import {Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis} from "recharts";
 
 function importAll(r) {
   let images = {};
@@ -31,13 +41,32 @@ export default function CourseList(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {
+
+  const fetchFn = (url, where) => {
+
     fetch(`${url}`)
       .then(d => d.json())
       .then(r => {
-        setData(r);
+        where(r);
       })
       .catch((err) => console.log(err))
+  }
+
+  const fetchHistoryData = (histUrl) => {
+    fetchFn(histUrl, setHistData)
+  }
+
+  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
+
+  const {isOpen: isHistoryOpen, onOpen: onHistoryOpen, onClose: onHistoryClose} = useDisclosure();
+
+  const [data, setData] = useState(null)
+  const [histData, setHistData] = useState(null)
+
+  useEffect(() => {
+    fetchFn(url, setData)
   }, [url])
+
 
   const buildDateString = (date) => {
     const time = new Date(date)
@@ -53,9 +82,55 @@ export default function CourseList(props) {
     return <ErrorMessage/>
   }
 
-  const topCourseBank = direction === 'buy' ? data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
+  const topCourseBank = direction === 'buy' ?
+    data
+      .reduce((prev, current) => (prev.rate > current.rate) ? prev : current) :
+    data
+      .reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
 
   return (<>
+
+    <Modal isOpen={isHistoryOpen} size={'2xl'} onClose={onHistoryClose}>
+      <ModalOverlay/>
+      <ModalContent>
+        <ModalHeader>История курса</ModalHeader>
+        <ModalCloseButton/>
+        <ModalBody>
+          <Box pb={30}>График изменения курса</Box>
+
+          {!histData ? <LoadingMessage/> :
+            <AreaChart
+              width={500}
+              height={400}
+              data={histData}
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3"/>
+              <XAxis dataKey="date" interval="preserveStartEnd"/>
+              <YAxis/>
+              <Tooltip/>
+              <Area type="monotone"
+                    dataKey="rate"
+                    name={`Курс 1 ${toCurrency} = ${fromCurrency}`}
+                    stroke="#8884d8"
+                    fill="#8884d8"/>
+            </AreaChart>
+          }
+        </ModalBody>
+
+        <ModalFooter>
+          <Button colorScheme='blue' mr={3} onClick={onHistoryClose}>
+            Закрыть
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+
     {data && <>
       <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4'}} py={{
         base: '6', md: '8', lg: '12'
@@ -71,72 +146,17 @@ export default function CourseList(props) {
             </h2>
 
             <SimpleGrid columns={[1, null, 2]} gap={6}>
-
-              {data.filter((item) => new Date(item.date).getDate() === new Date().getDate())
-
+              {data
                 .sort((a, b) => (direction === 'buy' ? parseFloat(b.rate) - parseFloat(a.rate) : parseFloat(a.rate) - parseFloat(b.rate)))
-
-                .map(({name, date, rate}, id) => (new Date(date).getDate() < new Date().getDate() ? 'ololo' :
-                  <Box direction={{base: 'column', md: 'row'}} w='100%' key={id}>
-                    <Stack direction="row" spacing="5" width="full">
-                      <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"
-                         target={'_blank'}>
-                        <Image
-                          rounded="lg"
-                          border={'1px'}
-                          borderColor={'gray.200'}
-                          width="100px"
-                          height="100px"
-                          fit="cover"
-                          src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
-                          alt={name}
-                          draggable="false"
-                          loading="lazy"
-                        />
-                      </a>
-                      <Box>
-
-                        <Stack spacing="0.5">
-                          <Text fontWeight="bold">{name} &nbsp;
-                            <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer"
-                               target={'_blank'}><Icon as={GrMap} boxSize="4" ml="1"/></a></Text>
-                          <Text as="span" fontWeight="b">
-                            {topCourseBank.rate === rate ? '🔥 ' : null}
-                            {direction === 'buy' ? `1 ${toCurrency} > ${rate} ${fromCurrency}` : `${rate} ${fromCurrency} >  1 ${toCurrency}`}
-                          </Text>
-                          <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
-                            Обновлено {buildDateString(date)}
-                          </Text>
-
-                        </Stack>
-
-                        <p>
-                          <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                          <ModalCalc content={'Калькулятор для ' + id}
-                                     title={'Калькулятор для ' + name}
-                                     bankName={name}
-                                     openTxt={'Калькулятор'}
-                                     fromCurrency={fromCurrency}
-                                     toCurrency={toCurrency}
-                                     direction={direction}
-                                     id={id}
-                                     rate={rate}
-                          />
-                        </p>
-
-                        <p>
-                          <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-                          <ModalHistory content={'История для id ' + id}
-                                        title={'История курса для ' + name}
-                                        openTxt={'История курса'}
-                                        toCurrency={toCurrency.toLowerCase()}
-                                        direction={direction}
-                                        id={id}
-                          />
-                        </p>
-                      </Box>
-                    </Stack>
-                  </Box>))}
+                .map(({name, date, rate, bankId}) => (
+                  <CourseItem images={images} key={bankId} name={name} topCourseBank={topCourseBank} rate={rate}
+                              direction={direction}
+                              toCurrency={toCurrency} fromCurrency={fromCurrency} s={buildDateString(date)}
+                              bankId={bankId} onClick={() => {
+                    onHistoryOpen();
+                    setHistData(null);
+                    fetchHistoryData(`https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
+                  }}/>))}
             </SimpleGrid>
           </Stack>
         </Stack>
