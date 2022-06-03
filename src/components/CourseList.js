@@ -13,8 +13,14 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Button
+  Button,
+  GridItem,
+  FormLabel,
+  Input,
+  Text,
+  useMediaQuery
 } from "@chakra-ui/react";
+
 
 //icons
 
@@ -38,9 +44,13 @@ export default function CourseList(props) {
 
   const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
 
-  const [data, setData] = useState(null)
+  const [leftValue, setLeftValue] = useState(null);
+  const [rightValue, setRightValue] = useState(null);
+  const [currentRate, setCurrentRate] = useState(null);
 
-  useEffect(() => {
+  const [isMobile] = useMediaQuery('(max-width: 320px)')
+
+  const [data, setData] = useState(null)
 
   const fetchFn = (url, where) => {
 
@@ -56,11 +66,9 @@ export default function CourseList(props) {
     fetchFn(histUrl, setHistData)
   }
 
-  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
-
   const {isOpen: isHistoryOpen, onOpen: onHistoryOpen, onClose: onHistoryClose} = useDisclosure();
+  const {isOpen: isCalcOpen, onOpen: onCalcOpen, onClose: onCalcClose} = useDisclosure();
 
-  const [data, setData] = useState(null)
   const [histData, setHistData] = useState(null)
 
   useEffect(() => {
@@ -82,11 +90,9 @@ export default function CourseList(props) {
     return <ErrorMessage/>
   }
 
-  const topCourseBank = direction === 'buy' ?
-    data
-      .reduce((prev, current) => (prev.rate > current.rate) ? prev : current) :
-    data
-      .reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
+  const topCourseBank = direction === 'buy' ? data
+    .reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data
+    .reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
 
   return (<>
 
@@ -98,33 +104,86 @@ export default function CourseList(props) {
         <ModalBody>
           <Box pb={30}>График изменения курса</Box>
 
-          {!histData ? <LoadingMessage/> :
-            <AreaChart
-              width={500}
-              height={400}
-              data={histData}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3"/>
-              <XAxis dataKey="date" interval="preserveStartEnd"/>
-              <YAxis/>
-              <Tooltip/>
-              <Area type="monotone"
-                    dataKey="rate"
-                    name={`Курс 1 ${toCurrency} = ${fromCurrency}`}
-                    stroke="#8884d8"
-                    fill="#8884d8"/>
-            </AreaChart>
-          }
+          {!histData ? <LoadingMessage/> : <AreaChart
+            width={500}
+            height={400}
+            data={histData}
+            margin={{
+              top: 10, right: 30, left: 0, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3"/>
+            <XAxis dataKey="date" interval="preserveStartEnd"/>
+            <YAxis/>
+            <Tooltip/>
+            <Area type="monotone"
+                  dataKey="rate"
+                  name={`Курс 1 ${toCurrency} = ${fromCurrency}`}
+                  stroke="#8884d8"
+                  fill="#8884d8"/>
+          </AreaChart>}
         </ModalBody>
 
         <ModalFooter>
           <Button colorScheme='blue' mr={3} onClick={onHistoryClose}>
+            Закрыть
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+
+    <Modal blockScrollOnMount={false} isOpen={isCalcOpen} onClose={onCalcClose} size='xl'>
+      <ModalOverlay/>
+      <ModalContent> {direction}
+        <ModalHeader>{title}</ModalHeader>
+        <ModalCloseButton/>
+        <ModalBody>
+          <SimpleGrid columns={isMobile ? '1' : '3'} columnGap={3} rowGap={3} w='full'>
+            {/* левый */}
+            <GridItem colSpan={1}>
+              <FormLabel> У вас есть {direction === 'buy' ? toCurrency : fromCurrency}
+                <Input placeholder='900'
+                       onChange={(event) => {
+                         setLeftValue(event.target.value);
+                         direction === 'buy'
+                           ? setRightValue(event.target.value * currentRate)
+                           : setRightValue((event.target.value / currentRate).toFixed(3))
+                       }}
+                       value={leftValue}
+                       type='number'
+                       name='toCurrency'/>
+              </FormLabel>
+            </GridItem>
+
+            <GridItem colSpan={1}>
+              <FormLabel> Курс
+                {/*{bankName}*/}
+                <Text p='1'>{currentRate}</Text>
+              </FormLabel>
+            </GridItem>
+
+            {/* правый */}
+            <GridItem colSpan={1}>
+              <FormLabel> Вы получите {direction === 'sell' ? toCurrency : fromCurrency}
+                <Input placeholder='100'
+                       value={rightValue}
+                       type='number'
+                       onChange={(event) => {
+                         setRightValue(event.target.value);
+                         direction === 'buy'
+                           ? setLeftValue((event.target.value / currentRate).toFixed(3))
+                           : setLeftValue((event.target.value * currentRate).toFixed(3))
+                       }}
+                       name='fromCurrency'/>
+              </FormLabel>
+            </GridItem>
+
+          </SimpleGrid>
+
+        </ModalBody>
+
+        <ModalFooter>
+          <Button colorScheme='blue' mr={3} onClick={onCalcClose}>
             Закрыть
           </Button>
         </ModalFooter>
@@ -152,11 +211,19 @@ export default function CourseList(props) {
                   <CourseItem images={images} key={bankId} name={name} topCourseBank={topCourseBank} rate={rate}
                               direction={direction}
                               toCurrency={toCurrency} fromCurrency={fromCurrency} s={buildDateString(date)}
-                              bankId={bankId} onClick={() => {
-                    onHistoryOpen();
-                    setHistData(null);
-                    fetchHistoryData(`https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
-                  }}/>))}
+                              bankId={bankId}
+                              onHistoryClick={() => {
+                                onHistoryOpen();
+                                setHistData(null);
+                                fetchHistoryData(`https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
+                              }}
+                              onCalcClick={() => {
+                                onCalcOpen();
+                                setCurrentRate(rate);
+                                setLeftValue('');
+                                setRightValue('');
+                              }}
+                  />))}
             </SimpleGrid>
           </Stack>
         </Stack>
