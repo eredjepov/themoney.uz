@@ -135,7 +135,7 @@ export default function CourseList(props) {
 
     <Modal blockScrollOnMount={false} isOpen={isCalcOpen} onClose={onCalcClose} size='xl'>
       <ModalOverlay/>
-      <ModalContent> {direction}
+      <ModalContent>
         <ModalHeader>Калькулятор валюты для {currentBankName}</ModalHeader>
         <ModalCloseButton/>
         <ModalBody>
