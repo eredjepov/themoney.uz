@@ -1,7 +1,7 @@
+import * as React from "react";
 import {Box, Icon, Image, Link, Stack, Text, useColorModeValue as mode} from "@chakra-ui/react";
 import {HiLocationMarker} from "react-icons/hi";
 import {AiOutlineCalculator} from "react-icons/ai";
-import ModalCalc from "./ModalCalc";
 import {BiStats} from "react-icons/bi";
 
 function CourseItem(props) {
@@ -43,21 +43,17 @@ function CourseItem(props) {
 
         <p>
           <Icon as={AiOutlineCalculator} color={"gray.400"} boxSize="4" mr="1"/>
-          <ModalCalc content={"Калькулятор для id " + props.bankId}
-                     title={"Калькулятор для " + props.name}
-                     openTxt={"Калькулятор"}
-                     fromCurrency={props.fromCurrency}
-                     toCurrency={props.toCurrency.toLowerCase()}
-                     direction={props.direction}
-                     id={props.bankId}
-                     rate={props.rate}
-          />
+
+          <Link onClick={props.onCalcClick} color={'gray.400'} fontSize="sm" textDecoration="underline">
+            Калькулятор
+          </Link>
+
         </p>
 
         <p>
           <Icon color={"gray.400"} as={BiStats} boxSize="4" mr="1"/>
 
-          <Link onClick={props.onClick}
+          <Link onClick={props.onHistoryClick}
                 color={"gray.400"}
                 fontSize="sm"
                 textDecoration="underline">

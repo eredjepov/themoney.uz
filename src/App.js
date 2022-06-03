@@ -14,7 +14,6 @@ import {
   TabPanels,
   Tabs,
   useColorModeValue as mode,
-  // useColorModeValue as mode
 } from "@chakra-ui/react";
 
 function App(props) {
