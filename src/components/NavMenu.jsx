@@ -1,6 +1,6 @@
-import { useColorModeValue } from '@chakra-ui/react'
+import {useColorModeValue} from '@chakra-ui/react'
 import * as React from 'react'
-import { MotionBox } from './MotionBox'
+import {MotionBox} from './MotionBox'
 
 export const NavMenu = React.forwardRef((props, ref) => (
   <MotionBox

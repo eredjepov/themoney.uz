@@ -1,7 +1,8 @@
-import { chakra, useColorModeValue as mode } from '@chakra-ui/react'
+import {chakra, useColorModeValue as mode} from '@chakra-ui/react'
 import * as React from 'react'
+
 const DesktopNavLink = React.forwardRef((props, ref) => {
-  const { active, ...rest } = props
+  const {active, ...rest} = props
   return (
     <chakra.a
       ref={ref}
@@ -29,7 +30,7 @@ const DesktopNavLink = React.forwardRef((props, ref) => {
 DesktopNavLink.displayName = 'DesktopNavLink'
 
 export const MobileNavLink = (props) => {
-  const { active, ...rest } = props
+  const {active, ...rest} = props
   return (
     <chakra.a
       aria-current={active ? 'page' : undefined}

@@ -4,21 +4,30 @@ import {
   Box,
   SimpleGrid,
   Heading,
-  Icon,
-  Image,
-  Link,
   Stack,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
+  GridItem,
+  FormLabel,
+  Input,
   Text,
-  extendTheme,
-  useColorModeValue as mode
+  useMediaQuery
 } from "@chakra-ui/react";
 
-//icons
-import {AiOutlineCalculator} from "react-icons/ai";
-import {BiStats} from "react-icons/bi";
-import {HiLocationMarker} from "react-icons/hi";
-// import {GrMap} from "react-icons/gr";
 
+//icons
+
+import ErrorMessage from "./ErrorMessage";
+import LoadingMessage from "./LoadingMessage";
+import CourseItem from "./CourseItem"
+import {Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis} from "recharts";
 
 function importAll(r) {
   let images = {};
@@ -33,25 +42,40 @@ const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$
 
 export default function CourseList(props) {
 
-  const {url, direction, title, subTitle, toCurency, fromCurency, onCalcOpen, onHistOpen} = props;
+  const {url, direction, title, subTitle, toCurrency, fromCurrency} = props;
+
+  const [leftValue, setLeftValue] = useState(null);
+  const [rightValue, setRightValue] = useState(null);
+  const [currentRate, setCurrentRate] = useState(null);
+  const [currentBankName, setCurrentBankName] = useState(null);
+
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   const [data, setData] = useState(null)
 
-  // const theme = extendTheme({
-  //   colors: {
-  //     brand: {
-  //       900: '#171923',
-  //       100: '#EDF2F7'
-  //     }
-  //   }
-  // })
+  const fetchFn = (url, where) => {
 
-  useEffect(() => {
     fetch(`${url}`)
       .then(d => d.json())
-      .then(r => setData(r))
+      .then(r => {
+        where(r);
+      })
       .catch((err) => console.log(err))
+  }
+
+  const fetchHistoryData = (histUrl) => {
+    fetchFn(histUrl, setHistData)
+  }
+
+  const {isOpen: isHistoryOpen, onOpen: onHistoryOpen, onClose: onHistoryClose} = useDisclosure();
+  const {isOpen: isCalcOpen, onOpen: onCalcOpen, onClose: onCalcClose} = useDisclosure();
+
+  const [histData, setHistData] = useState(null)
+
+  useEffect(() => {
+    fetchFn(url, setData)
   }, [url])
+
 
   const buildDateString = (date) => {
     const time = new Date(date)
@@ -60,126 +84,149 @@ export default function CourseList(props) {
   }
 // loading
   if (!data) {
-    return (
-      <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{
-        base: '6',
-        md: '8',
-        lg: '12',
-      }}>
-        <div>Жди, я загружаю данные...</div>
-      </Box>
-    )
+    return (<LoadingMessage/>)
   }
 // broken
   if (data.length === 0) {
-    return (
-      <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '4', md: '6', lg: '8',}} py={{
-        base: '6',
-        md: '8',
-        lg: '12',
-      }}>
-        <div>Что то пошло не так, попробуй лучше позднее...</div>
-      </Box>
-    )
+    return <ErrorMessage/>
   }
 
-  const topCourseBank = direction === 'buy'
-    ? data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate > current.rate) ? prev : current)
-    : data.filter((item) => new Date(item.date).getDate() === new Date().getDate()).reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
+  const topCourseBank = direction === 'buy' ? data
+    .reduce((prev, current) => (prev.rate > current.rate) ? prev : current) : data
+    .reduce((prev, current) => (prev.rate < current.rate) ? prev : current)
 
-  return (
-    <>
-      {data &&
-      <>
-        <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4'}} py={{
-          base: '6',
-          md: '8',
-          lg: '12'
-        }}>
-          <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{base: '8', md: '16'}}>
-            <Stack spacing={{base: '8', md: '10',}} flex="2">
-              <Heading fontSize="2xl" fontWeight="extrabold">
-                {title}
-              </Heading>
+  return (<>
 
-              <h2>
-                {subTitle}
-              </h2>
+    <Modal isOpen={isHistoryOpen} size={'2xl'} onClose={onHistoryClose}>
+      <ModalOverlay/>
+      <ModalContent>
+        <ModalHeader>История курса</ModalHeader>
+        <ModalCloseButton/>
+        <ModalBody>
+          <Box pb={30}>График изменения курса</Box>
 
-              <SimpleGrid columns={[1, null, 2]} gap={6}>
+          {!histData ? <LoadingMessage/> : <AreaChart
+            width={500}
+            height={400}
+            data={histData}
+            margin={{
+              top: 10, right: 30, left: 0, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3"/>
+            <XAxis dataKey="date" interval="preserveStartEnd"/>
+            <YAxis/>
+            <Tooltip/>
+            <Area type="monotone"
+                  dataKey="rate"
+                  name={`Курс 1 ${toCurrency} = ${fromCurrency}`}
+                  stroke="#8884d8"
+                  fill="#8884d8"/>
+          </AreaChart>}
+        </ModalBody>
 
-                {data.filter((item) => new Date(item.date).getDate() === new Date().getDate())
+        <ModalFooter>
+          <Button colorScheme='blue' mr={3} onClick={onHistoryClose}>
+            Закрыть
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
 
-                  .sort((a, b) =>
-                    (
-                      direction === 'buy'
-                        ? parseFloat(b.rate) - parseFloat(a.rate)
-                        : parseFloat(a.rate) - parseFloat(b.rate)
-                    ))
+    <Modal blockScrollOnMount={false} isOpen={isCalcOpen} onClose={onCalcClose} size='xl'>
+      <ModalOverlay/>
+      <ModalContent>
+        <ModalHeader>Калькулятор валюты для {currentBankName}</ModalHeader>
+        <ModalCloseButton/>
+        <ModalBody>
+          <Text pb={'20px'} fontWeight={700}>
+            {direction === 'buy' ? 'Банк покупает ' : 'Банк продает '}
+            {toCurrency} за {currentRate} {direction === 'sell' ? toCurrency : fromCurrency}
+          </Text>
+          <SimpleGrid columns={isMobile ? '1' : '2'} columnGap={3} rowGap={3} w='full'>
+            {/* левый */}
+            <GridItem colSpan={1}>
+              <FormLabel> У вас есть {direction === 'buy' ? toCurrency : fromCurrency}
+                <Input placeholder='Введите цифру'
+                       onChange={(event) => {
+                         setLeftValue(event.target.value);
+                         direction === 'buy'
+                           ? setRightValue(event.target.value * currentRate)
+                           : setRightValue((event.target.value / currentRate).toFixed(2))
+                       }}
+                       value={leftValue}
+                       type='number'
+                       name='toCurrency'/>
+              </FormLabel>
+            </GridItem>
 
-                  .map(({name, date, rate}, id) => (
-                    new Date(date).getDate() < new Date().getDate() ? 'ololo' :
-                      <Box direction={{base: 'column', md: 'row'}} w='100%' key={id}>
-                        <Stack direction="row" spacing="5" width="full">
-                          <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}>
-                            <Image
-                              rounded="lg"
-                              border={'1px'}
-                              borderColor={'gray.200'}
-                              bg={'white'}
-                              width="100px"
-                              height="100px"
-                              fit="cover"
-                              src={images[name.replaceAll(' ', '').toLowerCase() + '.png']}
-                              alt={name}
-                              draggable="false"
-                              loading="lazy"
-                            />
-                          </a>
-                          <Box>
+            {/* правый */}
+            <GridItem colSpan={1}>
+              <FormLabel> Вы получите {direction === 'sell' ? toCurrency : fromCurrency}
+                <Input placeholder='Введите цифру'
+                       value={rightValue}
+                       type='number'
+                       onChange={(event) => {
+                         setRightValue(event.target.value);
+                         direction === 'buy'
+                           ? setLeftValue((event.target.value / currentRate).toFixed(2))
+                           : setLeftValue((event.target.value * currentRate).toFixed(2))
+                       }}
+                       name='fromCurrency'/>
+              </FormLabel>
+            </GridItem>
 
-                            <Stack spacing="0.5">
-                              <Text fontWeight="bold">{name} &nbsp;
-                                <a href={`https://yandex.uz/maps/10335/tashkent/search/${name}`} rel="noreferrer" target={'_blank'}>
-                                  <Icon as={HiLocationMarker} boxSize="4" ml="1" color={mode('gray.600', 'gray.400')}/></a></Text>
-                              <Text as="span" fontWeight="b">
-                                {topCourseBank
-                                  .rate === rate ? '🔥 ' : null}
-                                {
-                                  direction === 'buy'
-                                    ? `1 ${toCurency} > ${rate} ${fromCurency}`
-                                    : `${rate} ${fromCurency} >  1 ${toCurency}`
-                                }
-                              </Text>
-                              <Text color={mode('gray.600', 'gray.400')} fontSize="sm">
-                                Обновлено {buildDateString(date)}
-                              </Text>
+          </SimpleGrid>
 
-                            </Stack>
+        </ModalBody>
 
-                            <p>
-                              <Icon as={AiOutlineCalculator} color={'gray.400'} boxSize="4" mr="1"/>
-                              <Link onClick={onCalcOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
-                                Калькулятор
-                              </Link>
-                            </p>
+        <ModalFooter>
+          <Button colorScheme='blue' mr={3} onClick={onCalcClose}>
+            Закрыть
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
 
-                            <p>
-                              <Icon color={'gray.400'} as={BiStats} boxSize="4" mr="1"/>
-                              <Link onClick={onHistOpen} color={'gray.400'} fontSize="sm" textDecoration="underline">
-                                История курса
-                              </Link>
-                            </p>
-                          </Box>
-                        </Stack>
-                      </Box>
-                  ))}
-              </SimpleGrid>
-            </Stack>
+    {data && <>
+      <Box maxW={{base: '3xl', lg: '7xl',}} mx="auto" px={{base: '0', md: '2', lg: '4'}} py={{
+        base: '6', md: '8', lg: '12'
+      }}>
+        <Stack direction={{base: 'column', lg: 'row',}} align={{lg: 'flex-start',}} spacing={{base: '8', md: '16'}}>
+          <Stack spacing={{base: '8', md: '10',}} flex="2">
+            <Heading fontSize="2xl" fontWeight="extrabold">
+              {title}
+            </Heading>
+
+            <h2>
+              {subTitle}
+            </h2>
+
+            <SimpleGrid columns={[1, null, 2]} gap={6}>
+              {data
+                .sort((a, b) => (direction === 'buy' ? parseFloat(b.rate) - parseFloat(a.rate) : parseFloat(a.rate) - parseFloat(b.rate)))
+                .map(({name, date, rate, bankId}) => (
+                  <CourseItem images={images} key={bankId} name={name} topCourseBank={topCourseBank} rate={rate}
+                              direction={direction}
+                              toCurrency={toCurrency} fromCurrency={fromCurrency} s={buildDateString(date)}
+                              bankId={bankId}
+                              onHistoryClick={() => {
+                                onHistoryOpen();
+                                setHistData(null);
+                                fetchHistoryData(`https://upd.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
+                              }}
+                              onCalcClick={() => {
+                                onCalcOpen();
+                                setCurrentRate(rate);
+                                setLeftValue('');
+                                setRightValue('');
+                                setCurrentBankName(name)
+                              }}
+                  />))}
+            </SimpleGrid>
           </Stack>
-        </Box>
-      </>
-      }
-    </>
-  )
+        </Stack>
+      </Box>
+    </>}
+  </>)
 }
