@@ -49,11 +49,11 @@ ReactDOM.render(
               <App
                 currencies={
                   {
-                    master: 'usd',
+                    master: 'usd_atm',
                     slave: 'uzs'
                   }
                 }
-                title={['доллар', 'доллара']}
+                title={['доллар в банкомате', 'доллара в банкомате']}
                 urls={{
                   buy: `${SERVER_URL}/rates/usd_atm/buy`,
                   sell: `${SERVER_URL}/rates/usd_atm/sell`
