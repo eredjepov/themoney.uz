@@ -21,6 +21,10 @@ const links = [
     href: '/',
   },
   {
+    label: 'Курс доллара ATM',
+    href: '/usd_atm',
+  },
+  {
     label: 'Курс евро',
     href: '/eur',
   },
