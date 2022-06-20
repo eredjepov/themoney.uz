@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App';
-import {ChakraProvider, ColorModeScript} from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from './theme'
 
 import Header from "./components/Header";
@@ -19,13 +19,13 @@ const SERVER_URL = 'https://api.dollaruz.biz'
 ReactDOM.render(
 
   <>
-    <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider>
 
       <BrowserRouter>
         <React.StrictMode>
 
-          <Header/>
+          <Header />
           <Routes>
             <Route path='/' element={
 
@@ -42,7 +42,24 @@ ReactDOM.render(
                   sell: `${SERVER_URL}/rates/usd/sell`
                 }
                 }
-              />}/>
+              />} />
+
+            <Route path='/usd_atm' element={
+
+              <App
+                currencies={
+                  {
+                    master: 'usd',
+                    slave: 'uzs'
+                  }
+                }
+                title={['доллар', 'доллара']}
+                urls={{
+                  buy: `${SERVER_URL}/rates/usd_atm/buy`,
+                  sell: `${SERVER_URL}/rates/usd_atm/sell`
+                }
+                }
+              />} />
 
             <Route path='/rub' element={
               <App
@@ -58,7 +75,7 @@ ReactDOM.render(
                   sell: `${SERVER_URL}/rates/rub/sell`
                 }
                 }
-              />}/>
+              />} />
 
             <Route path='/eur' element={
               <App
@@ -74,10 +91,10 @@ ReactDOM.render(
                   sell: `${SERVER_URL}/rates/eur/sell`
                 }
                 }
-              />}/>
+              />} />
 
           </Routes>
-          <Footer/>
+          <Footer />
         </React.StrictMode>
       </BrowserRouter>
     </ChakraProvider>
