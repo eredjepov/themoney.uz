@@ -44,9 +44,9 @@ const MobileNavContext = (props) => {
         </Box>
         <Box>
           <ModeSwitcher p={'1'}/>
-          <Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">
-            <TelegramIcon/>
-          </Button>
+          {/*<Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">*/}
+          {/*  <TelegramIcon/>*/}
+          {/*</Button>*/}
         </Box>
       </Flex>
       <NavMenu animate={isOpen ? 'open' : 'closed'}>
@@ -87,9 +87,9 @@ const DesktopNavContent = (props) => {
       </HStack>
       <HStack spacing="8" minW="240px" justify="flex-end">
         <ModeSwitcher p={'5'}/>
-        <Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">
-          <TelegramIcon/>
-        </Button>
+        {/*<Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">*/}
+        {/*  <TelegramIcon/>*/}
+        {/*</Button>*/}
       </HStack>
     </Flex>
   )
