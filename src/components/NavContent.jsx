@@ -1,6 +1,6 @@
 import {
   Box,
-  Button,
+  // Button,
   Flex,
   HStack,
   useColorModeValue as mode,
@@ -13,7 +13,7 @@ import {NavLink} from './NavLink'
 import {NavMenu} from './NavMenu'
 import {Submenu} from './Submenu'
 import {ToggleButton} from './ToggleButton'
-import TelegramIcon from './TelegramIcon'
+// import TelegramIcon from './TelegramIcon'
 
 const links = [
   {
@@ -54,7 +54,7 @@ const MobileNavContext = (props) => {
         </Box>
       </Flex>
       <NavMenu animate={isOpen ? 'open' : 'closed'}>
-        {/* TODO: поменять цвет иконки бургера */}
+
         {links.map((link, idx) =>
           link.children ? (
             <Submenu.Mobile key={idx} link={link}/>
