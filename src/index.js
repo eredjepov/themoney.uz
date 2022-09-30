@@ -8,7 +8,7 @@ import theme from './theme'
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-const SERVER_URL = 'https://api.dollaruz.biz'
+const SERVER_URL = 'https://api2.dollaruz.biz'
 
 ReactDOM.render(
   <>
