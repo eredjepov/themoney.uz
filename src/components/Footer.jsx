@@ -19,10 +19,10 @@ export default function Footer() {
         <Stack direction="row" spacing="4" align="center" justify="space-between">
           <Link to="/"><Logo h="36px" fill={mode('blue.600', 'blue.300')}/></Link>
 
-          <ButtonGroup variant="ghost" color="gray.600">
-            <IconButton as="a" href="//t.me/dollaruzbiz" aria-label="Telegram" icon={
-              <FaTelegram fontSize="20px"/>}/>
-          </ButtonGroup>
+          {/*<ButtonGroup variant="ghost" color="gray.600">*/}
+          {/*  <IconButton as="a" href="//t.me/dollaruzbiz" aria-label="Telegram" icon={*/}
+          {/*    <FaTelegram fontSize="20px"/>}/>*/}
+          {/*</ButtonGroup>*/}
         </Stack>
 
         <Text fontSize="sm" alignSelf={{base: 'start', sm: 'start'}}>

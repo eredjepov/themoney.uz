@@ -1,8 +1,8 @@
 import {
   Box,
-  Button,
+  // Button,
   Flex,
-  HStack,
+  HStack, Link,
   useColorModeValue as mode,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -13,12 +13,18 @@ import {NavLink} from './NavLink'
 import {NavMenu} from './NavMenu'
 import {Submenu} from './Submenu'
 import {ToggleButton} from './ToggleButton'
-import TelegramIcon from './TelegramIcon'
+// import TelegramIcon from './TelegramIcon'
+import {Link as ReachLink} from "react-router-dom";
+
 
 const links = [
   {
     label: 'Курс доллара',
     href: '/',
+  },
+  {
+    label: 'Курс доллара ATM',
+    href: '/usd_atm',
   },
   {
     label: 'Курс евро',
@@ -39,23 +45,23 @@ const MobileNavContext = (props) => {
         <Box>
           <ToggleButton isOpen={isOpen} onClick={onToggle}/>
         </Box>
-        <Box flexGrow={'1'} as="a" href="/" rel="home" mx="auto">
+        <Box flexGrow={'1'} as={ReachLink} to="/" rel="home" mx="auto">
           <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
         </Box>
         <Box>
           <ModeSwitcher p={'1'}/>
-          <Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">
-            <TelegramIcon/>
-          </Button>
+          {/*<Button as="a" colorScheme="blue" href="//t.me/dollaruzbiz">*/}
+          {/*  <TelegramIcon/>*/}
+          {/*</Button>*/}
         </Box>
       </Flex>
       <NavMenu animate={isOpen ? 'open' : 'closed'}>
-        {/* TODO: поменять цвет иконки бургера */}
+
         {links.map((link, idx) =>
           link.children ? (
             <Submenu.Mobile key={idx} link={link}/>
           ) : (
-            <NavLink.Mobile key={idx} href={link.href}>
+            <NavLink.Mobile key={idx} to={link.href}>
               {link.label}
             </NavLink.Mobile>
           ),
@@ -70,7 +76,7 @@ const MobileNavContext = (props) => {
 const DesktopNavContent = (props) => {
   return (
     <Flex className="nav-content__desktop" align="center" justify="space-between" {...props}>
-      <Box as="a" href="/" rel="home">
+      <Box as={ReachLink} to="/" rel="home">
         <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
       </Box>
 
@@ -80,16 +86,16 @@ const DesktopNavContent = (props) => {
             {link.children ? (
               <Submenu.Desktop link={link}/>
             ) : (
-              <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
+              <NavLink.Desktop to={link.href}>{link.label}</NavLink.Desktop>
             )}
           </Box>
         ))}
       </HStack>
       <HStack spacing="8" minW="240px" justify="flex-end">
         <ModeSwitcher p={'5'}/>
-        <Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">
-          <TelegramIcon/>
-        </Button>
+        {/*<Button as="a" href="//t.me/dollaruzbiz" colorScheme="blue" fontWeight="bold">*/}
+        {/*  <TelegramIcon/>*/}
+        {/*</Button>*/}
       </HStack>
     </Flex>
   )

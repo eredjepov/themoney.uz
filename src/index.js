@@ -8,27 +8,17 @@ import theme from './theme'
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-//   // dev code
-// } else {
-//   // production code
-// }
-
-const SERVER_URL = 'https://api.dollaruz.biz'
+const SERVER_URL = 'https://api2.dollaruz.biz'
 
 ReactDOM.render(
-
   <>
     <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
     <ChakraProvider>
-
       <BrowserRouter>
         <React.StrictMode>
-
           <Header/>
           <Routes>
             <Route path='/' element={
-
               <App
                 currencies={
                   {
@@ -42,7 +32,25 @@ ReactDOM.render(
                   sell: `${SERVER_URL}/rates/usd/sell`
                 }
                 }
-              />}/>
+              />}
+            />
+
+            <Route path='/usd_atm' element={
+              <App
+                currencies={
+                  {
+                    master: 'usd_atm',
+                    slave: 'uzs'
+                  }
+                }
+                title={['доллар в банкомате', 'доллара в банкомате']}
+                urls={{
+                  buy: `${SERVER_URL}/rates/usd_atm/buy`,
+                  sell: `${SERVER_URL}/rates/usd_atm/sell`
+                }
+                }
+              />}
+            />
 
             <Route path='/rub' element={
               <App
@@ -58,7 +66,8 @@ ReactDOM.render(
                   sell: `${SERVER_URL}/rates/rub/sell`
                 }
                 }
-              />}/>
+              />}
+            />
 
             <Route path='/eur' element={
               <App
@@ -75,7 +84,6 @@ ReactDOM.render(
                 }
                 }
               />}/>
-
           </Routes>
           <Footer/>
         </React.StrictMode>
