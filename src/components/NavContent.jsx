@@ -2,7 +2,7 @@ import {
   Box,
   // Button,
   Flex,
-  HStack,
+  HStack, Link,
   useColorModeValue as mode,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -14,6 +14,8 @@ import {NavMenu} from './NavMenu'
 import {Submenu} from './Submenu'
 import {ToggleButton} from './ToggleButton'
 // import TelegramIcon from './TelegramIcon'
+import {Link as ReachLink} from "react-router-dom";
+
 
 const links = [
   {
@@ -43,7 +45,7 @@ const MobileNavContext = (props) => {
         <Box>
           <ToggleButton isOpen={isOpen} onClick={onToggle}/>
         </Box>
-        <Box flexGrow={'1'} as="a" href="/" rel="home" mx="auto">
+        <Box flexGrow={'1'} as={ReachLink} to="/" rel="home" mx="auto">
           <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
         </Box>
         <Box>
@@ -59,7 +61,7 @@ const MobileNavContext = (props) => {
           link.children ? (
             <Submenu.Mobile key={idx} link={link}/>
           ) : (
-            <NavLink.Mobile key={idx} href={link.href}>
+            <NavLink.Mobile key={idx} to={link.href}>
               {link.label}
             </NavLink.Mobile>
           ),
@@ -74,7 +76,7 @@ const MobileNavContext = (props) => {
 const DesktopNavContent = (props) => {
   return (
     <Flex className="nav-content__desktop" align="center" justify="space-between" {...props}>
-      <Box as="a" href="/" rel="home">
+      <Box as={ReachLink} to="/" rel="home">
         <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
       </Box>
 
@@ -84,7 +86,7 @@ const DesktopNavContent = (props) => {
             {link.children ? (
               <Submenu.Desktop link={link}/>
             ) : (
-              <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
+              <NavLink.Desktop to={link.href}>{link.label}</NavLink.Desktop>
             )}
           </Box>
         ))}
