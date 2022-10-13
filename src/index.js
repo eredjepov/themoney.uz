@@ -13,7 +13,7 @@ const SERVER_URL = 'https://api2.dollaruz.biz'
 ReactDOM.render(
   <>
     <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <BrowserRouter>
         <React.StrictMode>
           <Header/>
