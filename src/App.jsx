@@ -22,7 +22,7 @@ function App(props) {
   return (
     <>
       <Helmet>
-        <title>Dollaruz.biz курс {title && title[1]} в Узбекистане сегодня</title>
+        <title>Лучший курс {title && title[1]} в Узбекистане сегодня, актуальный курс обмена валюты.</title>
         <meta
           name="description"
           content="Курс  {title && title[1]} онлайн в реальном времени по банкам"
