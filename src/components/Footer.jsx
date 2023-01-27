@@ -4,12 +4,10 @@ import {
   Box,
   Stack,
   Text,
-  ButtonGroup,
-  IconButton,
   useColorModeValue as mode
 } from "@chakra-ui/react";
 
-import {FaTelegram} from 'react-icons/fa'
+// import {FaTelegram} from 'react-icons/fa'
 import {Logo} from "./Logo";
 
 export default function Footer() {
