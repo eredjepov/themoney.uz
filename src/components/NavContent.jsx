@@ -2,7 +2,7 @@ import {
   Box,
   // Button,
   Flex,
-  HStack, Link,
+  HStack,
   useColorModeValue as mode,
   useDisclosure,
 } from '@chakra-ui/react'
