@@ -213,7 +213,7 @@ export default function CourseList(props) {
                               onHistoryClick={() => {
                                 onHistoryOpen();
                                 setHistData(null);
-                                fetchHistoryData(`https://api2.dollaruz.biz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
+                                fetchHistoryData(`https://api.themoney.uz/history/rates/${direction}/${toCurrency.toLowerCase()}/${bankId}`)
                               }}
                               onCalcClick={() => {
                                 onCalcOpen();

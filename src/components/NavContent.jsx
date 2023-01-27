@@ -46,7 +46,7 @@ const MobileNavContext = (props) => {
           <ToggleButton isOpen={isOpen} onClick={onToggle}/>
         </Box>
         <Box flexGrow={'1'} as={ReachLink} to="/" rel="home" mx="auto">
-          <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
+          <Logo h="36px" fill={mode('#262626', '#eaeaea')}/>
         </Box>
         <Box>
           <ModeSwitcher p={'1'}/>
