@@ -77,7 +77,7 @@ const DesktopNavContent = (props) => {
   return (
     <Flex className="nav-content__desktop" align="center" justify="space-between" {...props}>
       <Box as={ReachLink} to="/" rel="home">
-        <Logo h="36px" fill={mode('blue.600', 'blue.300')}/>
+        <Logo h="36px" fill={mode('#262626', '#eaeaea')}/>
       </Box>
 
       <HStack as="ul" id="nav__primary-menu" aria-label="Навигация" listStyleType="none">
