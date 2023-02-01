@@ -60,7 +60,7 @@ ReactDOM.render(
                     slave: 'uzs'
                   }
                 }
-                title={['рубль', 'рубля']}
+                title={['РУБЛЬ', 'рубля']}
                 urls={{
                   buy: `${SERVER_URL}/rates/rub/buy`,
                   sell: `${SERVER_URL}/rates/rub/sell`
